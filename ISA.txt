@@ -1,151 +1,139 @@
-	0B	1B	2B	3B	Description		Reg Value	Name	Bits	Description		Mem Address	Name	Size	Description	User
-Y	LOADB	A[0-15]	MEM8L	MEM8U	Load 1 byte from MEM to REG		0x00-0x0F	A	16	General Purpose Register		0x0000-0x03FF	System Range	1024 B	Only for important system functions	No
-	0x00	0x00-0x0F	0x00-0xFF	0x00-0xFF			0x10-0x17	B	32	General Purpose Register (I/FP)						
-Y	LOADW	A[0-15]/SR16b	MEM8L	MEM8U	Load 2 bytes from MEM to REG		0x17-0x1F	FP	32	Single Precision floating point register						
-	0x01	0x00-0x0F	0x00-0xFF	0x00-0xFF												
-Y	LOADD	B[0-7]	MEM8L	MEM8U	Load 4 bytes from MEM to REG											
-	0x02	0x10-0x17	0x00-0xFF	0x00-0xFF			0xD0-0xD8	IPR	16	User Interrupt Pointer Register. Stores address to interrupt subroutine.						
-Y	LOADI	A[0-15]/SR16b	I8L	I8U	Load 2 bytes immediate value to REG		0xE0	RA	16	Return Address for CALL/RET						
-	0x03	0x00-0x0F	0x00-0xFF	0x00-0xFF			0xE1	IRA	16	Interrupt Return Address for INT						
-							0xE2	Flags	8	"Carry, Zero, Interrupt"						
-							0xE3	SP	16	Stack Pointer for Push and Pop operation						
-Y	STOREB	A[0-15]	MEM8L	MEM8U	Store 1 byte to MEM from REG		0xE4	SAR	16	Save Address Register. Saves GP registers						
-	0x08	0x00-0x0F	0x00-0xFF	0x00-0xFF												
-Y	STOREW	A[0-15]	MEM8L	MEM8U	Store 2 bytes to MEM from REG											
-	0x09	0x00-0x0F	0x00-0xFF	0x00-0xFF												
-Y	STORED	B[0-7]	MEM8L	MEM8U	Store 4 bytes to MEM from REG		0xF0	CFG0	16	Configuration 0 register						
-	0x0A	0x10-0x17	0x00-0xFF	0x00-0xFF												
+	0B		1B		2B		3B		Description	
+Y	LOADB		A[0-15]		MEM8L		MEM8U		Load 1 byte from MEM to REG		
+	0x00		0x00-0x0F	0x00-0xFF	0x00-0xFF			
+Y	LOADW		A[0-15]/SR16b	MEM8L		MEM8U		Load 2 bytes from MEM to REG	
+	0x01		0x00-0x0F	0x00-0xFF	0x00-0xFF												
+Y	LOADD		B[0-7]		MEM8L		MEM8U		Load 4 bytes from MEM to REG											
+	0x02		0x10-0x17	0x00-0xFF	0x00-0xFF			
+Y	LOADI		A[0-15]/SR16b	I8L		I8U		Load 2 bytes immediate value to REG
+	0x03		0x00-0x0F	0x00-0xFF	0x00-0xFF			
+						
+						
+Y	STOREB		A[0-15]		MEM8L		MEM8U		Store 1 byte to MEM from REG		
+	0x08		0x00-0x0F	0x00-0xFF	0x00-0xFF												
+Y	STOREW		A[0-15]		MEM8L		MEM8U		Store 2 bytes to MEM from REG											
+	0x09		0x00-0x0F	0x00-0xFF	0x00-0xFF												
+Y	STORED		B[0-7]		MEM8L		MEM8U		Store 4 bytes to MEM from REG		
+	0x0A		0x10-0x17	0x00-0xFF	0x00-0xFF												
 																
-							0xFF	DUMP	NIL	Only to be used as DST. Value written to it is discarded immediately. Reads 0xFFFF						
-Y	ADD	A[0-15]	A[0-15]	A[0-15]	Add SRC1 and SRC2. Store the result in DST. Update Z and C Flags											
-	0X10	DST	SRC1	SRC2												
-Y	SUB	A[0-15]	A[0-15]	A[0-15]	Sub SRC1 and SRC2. Store the result in DST. Update Z and C Flags											
-	0x11	DST	SRC1	SRC2												
-Y	MUL	B[0-7]	A[0-15]	A[0-15]	Multiply SRC1 and SRC2. Store the result in DST. Update Z and C Flags											
-	0x12	DST	SRC1	SRC2												
-Y	DIV	B[0-7]	A[0-15]	A[0-15]	Divide SRC1 with SRC2 and store the quotient in DST											
-	0x13	DST	SRC1	SRC2												
-Y	ADC	A[0-15]	A[0-15]	A[0-15]	Add SRC1 and SRC2 with carry. Store the result in DST. Update Z and C Flags											
-	0x14	DST	SRC1	SRC2												
-Y	SBB	A[0-15]	A[0-15]	A[0-15]	Sub SRC1 and SRC2 with borrow. Store the result in DST. Update Z and C Flags											
-	0x15	DST	SRC1	SRC2												
-Y	IMUL	B[0-7]	A[0-15]	A[0-15]	Signed Multiply SRC1 and SRC2. Store the result in DST. Update Z and C Flags											
-	0x16	DST	SRC1	SRC2												
-Y	IDIV	B[0-7]	A[0-15]	A[0-15]	Signed Divide SRC1 with SRC2 and store the quotient in DST											
-	0x17	DST	SRC1	SRC2												
-																
-																
-Y	CMP	A[0-15]	A[0-15]		Sub SRC1 and SRC2. Update Z and C Flags											
-	0x20	SRC1	SRC2													
+						
+Y	ADD		A[0-15]		A[0-15]		A[0-15]		Add SRC1 and SRC2. Store the result in DST. Update Z and C Flags											
+	0X10		DST		SRC1		SRC2												
+Y	SUB		A[0-15]		A[0-15]		A[0-15]		Sub SRC1 and SRC2. Store the result in DST. Update Z and C Flags											
+	0x11		DST		SRC1		SRC2												
+Y	MUL		B[0-7]		A[0-15]		A[0-15]		Multiply SRC1 and SRC2. Store the result in DST. Update Z and C Flags											
+	0x12		DST		SRC1		SRC2												
+Y	DIV		B[0-7]		A[0-15]		A[0-15]		Divide SRC1 with SRC2 and store the quotient in DST											
+	0x13		DST		SRC1		SRC2												
+Y	ADC		A[0-15]		A[0-15]		A[0-15]		Add SRC1 and SRC2 with carry. Store the result in DST. Update Z and C Flags											
+	0x14		DST		SRC1		SRC2												
+Y	SBB		A[0-15]		A[0-15]		A[0-15]		Sub SRC1 and SRC2 with borrow. Store the result in DST. Update Z and C Flags											
+	0x15		DST		SRC1		SRC2												
+Y	IMUL		B[0-7]		A[0-15]		A[0-15]		Signed Multiply SRC1 and SRC2. Store the result in DST. Update Z and C Flags											
+	0x16		DST		SRC1		SRC2												
+Y	IDIV		B[0-7]		A[0-15]		A[0-15]		Signed Divide SRC1 with SRC2 and store the quotient in DST											
+	0x17		DST		SRC1		SRC2												
 																
 																
-Y	CALL	A[0-15]			Call to subroutine at MEM stored in REG. Save CALL Address+4B to Return Address(RA) REG											
-	0x28	0x00-0x0F														
-Y	RET				Return to calling routine address stored in Return Address(RA) REG											
+Y	CMP		A[0-15]		A[0-15]				Sub SRC1 and SRC2. Update Z and C Flags											
+	0x20		SRC1		SRC2													
+																
+																
+Y	CALL		A[0-15]						Call to subroutine at MEM stored in REG. Save CALL Address+4B to Return Address(RA) REG											
+	0x28		0x00-0x0F														
+Y	RET								Return to calling routine address stored in Return Address(RA) REG											
 	0x29															
 																
 																
-Y	JMPM	MEM8L	MEM8U		Unconditional Jump to MEM											
-	0x30	0x00-0xFF	0x00-0xFF													
-Y	JMPR	A[0-15]			Unconditional Jump to MEM stored in REG											
-	0x31	0x00-0x0F														
-Y	JZM	MEM8L	MEM8U		Jump to MEM if Z flag is set											
-	0x32	0x00-0xFF	0x00-0xFF													
-Y	JZR	A[0-15]			Jump to MEM in REG if Z flag is set											
-	0x33	0x00-0x0F														
-Y	JNZM	MEM8L	MEM8U		Jump to MEM if Z flag is not set											
-	0x34	0x00-0xFF	0x00-0xFF													
-Y	JNZR	A[0-15]			Jump to MEM in REG if Z flag is not set											
-	0x35	0x00-0x0F														
-Y	JCM	MEM8L	MEM8U		Jump to MEM if C flag is set											
-	0x36	0x00-0xFF	0x00-0xFF													
-Y	JCR	A[0-15]			Jump to MEM in REG if C flag is set											
-	0x37	0x00-0x0F														
-Y	JNCM	MEM8L	MEM8U		Jump to MEM if C flag is not set											
-	0x38	0x00-0xFF	0x00-0xFF													
-Y	JNCR	A[0-15]			Jump to MEM in REG if C flag is not set											
-	0x39	0x00-0x0F														
+Y	JMPM		MEM8L		MEM8U				Unconditional Jump to MEM											
+	0x30		0x00-0xFF	0x00-0xFF													
+Y	JMPR		A[0-15]						Unconditional Jump to MEM stored in REG											
+	0x31		0x00-0x0F														
+Y	JZM		MEM8L		MEM8U				Jump to MEM if Z flag is set											
+	0x32		0x00-0xFF	0x00-0xFF													
+Y	JZR		A[0-15]						Jump to MEM in REG if Z flag is set											
+	0x33		0x00-0x0F														
+Y	JNZM		MEM8L		MEM8U				Jump to MEM if Z flag is not set											
+	0x34		0x00-0xFF	0x00-0xFF													
+Y	JNZR		A[0-15]						Jump to MEM in REG if Z flag is not set											
+	0x35		0x00-0x0F														
+Y	JCM		MEM8L		MEM8U				Jump to MEM if C flag is set											
+	0x36		0x00-0xFF	0x00-0xFF													
+Y	JCR		A[0-15]						Jump to MEM in REG if C flag is set											
+	0x37		0x00-0x0F														
+Y	JNCM		MEM8L		MEM8U				Jump to MEM if C flag is not set											
+	0x38		0x00-0xFF	0x00-0xFF													
+Y	JNCR		A[0-15]						Jump to MEM in REG if C flag is not set											
+	0x39		0x00-0x0F														
 																
 																
-Y	AND	A[0-15]	A[0-15]	A[0-15]	Logical AND between SRC1 and SRC2. Store value to DST.											
-	0x40	DST	SRC1	SRC2												
-Y	OR	A[0-15]	A[0-15]	A[0-15]	Logical OR between SRC1 and SRC2. Store value to DST.											
-	0x41	DST	SCR1	SRC2												
-Y	XOR	A[0-15]	A[0-15]	A[0-15]	Logical XOR between SRC1 and SRC2. Store value to DST.											
-	0x42	DST	SCR1	SRC2												
-Y	NOT	A[0-15]	A[0-15]		Logical NOT on SRC. Store value to DST											
-	0x43	DST	SCR													
-Y	SR	A[0-15]	A[0-15]	A[0-15]	Shift the value of SRC to right by POS. Store value of DST											
-	0x44	DST	SRC	POS												
-Y	SL	A[0-15]	A[0-15]	A[0-15]	Shift the value of SRC to left by POS. Store value of DST											
-	0x45	DST	SRC	POS												
-Y	SAR	A[0-15]	A[0-15]	A[0-15]	Arithmetic Shift the value of SRC to right by POS. Store value of DST											
-	0x46	DST	SRC	POS												
-Y	SAL	A[0-15]	A[0-15]	A[0-15]	Arithmetic Shift the value of SRC to left by POS. Store value of DST											
-	0x47	DST	SRC	POS												
-Y	ROR	A[0-15]	A[0-15]	A[0-15]	Rotate the value of SRC to right by POS. Store value of DST											
-	0x48	DST	SRC	POS												
-Y	ROL	A[0-15]	A[0-15]	A[0-15]	Rotate the value of SRC to left by POS. Store value of DST											
-	0x49	DST	SRC	POS												
+Y	AND		A[0-15]		A[0-15]		A[0-15]		Logical AND between SRC1 and SRC2. Store value to DST.											
+	0x40		DST		SRC1		SRC2												
+Y	OR		A[0-15]		A[0-15]		A[0-15]		Logical OR between SRC1 and SRC2. Store value to DST.											
+	0x41		DST		SCR1		SRC2												
+Y	XOR		A[0-15]		A[0-15]		A[0-15]		Logical XOR between SRC1 and SRC2. Store value to DST.											
+	0x42		DST		SCR1		SRC2												
+Y	NOT		A[0-15]		A[0-15]				Logical NOT on SRC. Store value to DST											
+	0x43		DST		SCR														
+Y	SR		A[0-15]		A[0-15]		A[0-15]		Shift the value of SRC to right by POS. Store value of DST											
+	0x44		DST		SRC		POS												
+Y	SL		A[0-15]		A[0-15]		A[0-15]		Shift the value of SRC to left by POS. Store value of DST											
+	0x45		DST		SRC		POS												
+Y	SAR		A[0-15]		A[0-15]		A[0-15]		Arithmetic Shift the value of SRC to right by POS. Store value of DST											
+	0x46		DST		SRC		POS												
+Y	SAL		A[0-15]		A[0-15]		A[0-15]		Arithmetic Shift the value of SRC to left by POS. Store value of DST											
+	0x47		DST		SRC		POS												
+Y	ROR		A[0-15]		A[0-15]		A[0-15]		Rotate the value of SRC to right by POS. Store value of DST											
+	0x48		DST		SRC		POS												
+Y	ROL		A[0-15]		A[0-15]		A[0-15]		Rotate the value of SRC to left by POS. Store value of DST											
+	0x49		DST		SRC		POS												
 																
 																
-Y	MOV	A[0-15]/B[0-7]/SR	A[0-15]/B[0-7]/SR		Move value from SRC to DST (Both DST and SRC must have same size)											
-	0x50	DST	SRC													
-Y	MOVD	B[0-7]	A[0-15]	A[0-15]	Move 4 bytes to DST(SRC1 lower half and SRC2 upper half) (DST must be twice the size of SRC1/2 and SRC1 must be equal to SRC2)											
-	0x51	DST	SRC1	SRC2												
-Y	MOVL	B[0-7]	A[0-15]		Move 2 bytes from SRC to lower half of DST (DST must be twice the size of SRC)											
-	0x52	DST	SRC													
-Y	MOVU	B[0-7]	A[0-15]		Move 2 bytes from SRC to upper half of DST (DST must be twice the size of SRC)											
-	0x53	DST	SRC													
-Y	MOVLD	A[0-15]	B[0-7]		Move lower half of SRC to DST (SRC must be twice the size of DST)											
-	0x54	DST	SRC													
-Y	MOVUD	A[0-15]	B[0-7]		Move upper half of SRC to DST (SRC must be twice the size of DST)											
-	0x55	DST	SRC													
+Y	MOV	 	A[0-15]/B[0-7]	A[0-15]/B[0-7]			Move value from SRC to DST (Both DST and SRC must have same size)											
+	0x50		DST		SRC													
+Y	MOVD		B[0-7]		A[0-15]		A[0-15]		Move 4 bytes to DST(SRC1 lower half and SRC2 upper half) (DST must be twice the size of SRC1/2 and SRC1 must be equal to SRC2)											
+	0x51		DST		SRC1		SRC2												
+Y	MOVL		B[0-7]		A[0-15]				Move 2 bytes from SRC to lower half of DST (DST must be twice the size of SRC)											
+	0x52		DST		SRC													
+Y	MOVU		B[0-7]		A[0-15]				Move 2 bytes from SRC to upper half of DST (DST must be twice the size of SRC)											
+	0x53		DST		SRC													
+Y	MOVLD		A[0-15]		B[0-7]				Move lower half of SRC to DST (SRC must be twice the size of DST)											
+	0x54		DST		SRC													
+Y	MOVUD		A[0-15]		B[0-7]				Move upper half of SRC to DST (SRC must be twice the size of DST)											
+	0x55		DST		SRC													
 																
 																
-Y	PUSH	A[0-15]			Push the value of REG to the address saved in SP and increment SP by 2											
-	0x60	0x00-0x0F														
-Y	POP	A[0-15]			Pop the value from the address saved in SP to REG and decrement SP by 2											
-	0x61	0x00-0x0F														
-Y	INC	A[0-15]			Increment the value of REG by 1											
-	0x62	0x00-0x0F														
-Y	DEC	A[0-15]			Decrement the value of REG by 1											
-	0x63	0x00-0x0F														
+Y	PUSH		A[0-15]						Push the value of REG to the address saved in SP and increment SP by 2											
+	0x60		0x00-0x0F														
+Y	POP		A[0-15]						Pop the value from the address saved in SP to REG and decrement SP by 2											
+	0x61		0x00-0x0F														
+Y	INC		A[0-15]						Increment the value of REG by 1											
+	0x62		0x00-0x0F														
+Y	DEC		A[0-15]						Decrement the value of REG by 1											
+	0x63		0x00-0x0F														
+																
+																										
 																
 																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-	INT	I8			Call to interrupt using the immediate number. Save INT address + 4B to IRA REG											
-	0xE8	0x00-0x0F														
-	IRET				Return to calling routine address stored in IRA REG											
+	INT		I8						Call to interrupt using the immediate number. Save INT address + 4B to IRA REG											
+	0xE8		0x00-0x0F														
+	IRET								Return to calling routine address stored in IRA REG											
 	0xE9															
-	CLC				Clear Carry Flag											
+	CLC								Clear Carry Flag											
 	0xEA															
-	CLZ				Clear Zero Flag											
+	CLZ								Clear Zero Flag											
 	0xEB															
-	CLI				Clear Interrupt Flag											
+	CLI								Clear Interrupt Flag											
 	0xEC															
-	STC				Set Carry Flag											
+	STC								Set Carry Flag											
 	0xED															
-	STZ				Set Zero Flag											
+	STZ								Set Zero Flag											
 	0xEE															
-	STI				Set Interrupt Flag											
+	STI								Set Interrupt Flag											
 	0xEF															
 																
 																
-	HLT				Halt and wait for interrupt											
+	HLT								Halt and wait for interrupt											
 	0xFE															
-	NOP				No operation											
+	NOP								No operation											
 	0xFF															
