@@ -1,0 +1,37 @@
+-8 bit architecture
+-8 bit instruction length
+-Little endian
+-Byte(8)/Half Word(16)/Word(32)/Double Word(64)
+-8 General Purpose Registers: R0,R1,R2,R3,MADDR,RES,SP,MVSPR
+-8 Special Purpose Registers:CTRL0,FAULT,FLAGS,PC etc
+
+Instruction:
+
+ 7:0    - Instruction
+	 0	 :	7 
+      00-RMV[2]  DST[3] SRC[3]  DST and SRC -> GPR	Move value from SRC reg to DST reg
+    0001-SHL[4]  SRC[2] POS[2]  SRC and POS -> R0-R3 	Shift SRC reg value to left by bits specified in POS reg, update flags
+    0101-SHR[4]  SRC[2] POS[2]  SRC and POS -> R0-R3	Shift SRC reg value to right by bits specified in POS reg, update flags
+    1001-ADD[4]  SRC[2] SRC[2]  SRC -> R0-R3		SRC+SRC=RES, update flags
+    1101-SUB[4]  SRC[2] SRC[2]  SRC -> R0-R3		SRC-SRC=RES, update flags
+    0010-AND[4]  SRC[2] SRC[2]  SRC -> R0-R3		Bitwise AND, store result in RES and update flags
+    0110-OR[4]   SRC[2] SRC[2]  SRC -> R0-R3		Bitwise OR, store result in RES and update flags
+    1010-XOR[4]  SRC[2] SRC[2]  SRC -> R0-R3		Bitwise XOR, store result in RES and update flags
+    1110-IMV[4]  IMM[4]		IMMEDIATE VALUE		Move 4bit immediate value to the lower 4bits of RES
+   00011-MGS[5]  SRC[3]		SRC -> SPR		(M)ove (G)PR to (S)PR, move value from MVSPR to SRC SPR
+   10011-MSG[5]  SRC[3]		SRC -> SPR		(M)ove (S)PR to (G)PR, move value from SRC SPR to MVSPR
+   01011-RESERVED
+   11011-RESERVED
+  000111-PUSH[6] SRC[2]		SRC -> R0-R3		Push the value in SRC reg onto the stack and update SP
+  001111-POP[6]  SRC[2]		SRC -> R0-R3		Pop the value from stack into SRC reg and update SP
+  010111-LD[6]   SRC[2]		SRC -> R0-R3		Load value from address in MADDR into SRC reg
+  011111-ST[6]   SRC[2]		SRC -> R0-R3		Store value in SRC reg into address in MADDR
+  100111-ACR[6]  SRC[2]		SRC -> R0-R3		(A)dd (C)arry to (R)eg,SRC+CF=REG and update flags
+  101111-SCR[6]  SRC[2]		SRC -> R0-R3		(S)ub (C)arry from (R)eg,SRC-CF=REG and update flags
+  110111-CMP[6]  SRC[2]		SRC -> R0-R3		Compare, RES-SRC and update flags
+00111111-JMP[8]						Jump to address in MADDR
+01111111-JZ[8]						Jump to address in MADDR if ZF=1
+10111111-CALL[8]					Call to address in MADDR and save return address in stack
+11111111-RET[8]						Return to return address saved in stack
+
+
