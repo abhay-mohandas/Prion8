@@ -22,7 +22,7 @@ Register Usage:
 Instruction:
 
  7:0    - Instruction
-	 0	 :	7 
+         0         :         7 
       00-RMV[2]  DST[3] SRC[3]  DST and SRC -> GPR	Move value from SRC reg to DST reg
     0001-SHL[4]  SRC[2] POS[2]  SRC and POS -> R0-R3 	Shift SRC reg value to left by bits specified in POS reg, update flags
     0101-SHR[4]  SRC[2] POS[2]  SRC and POS -> R0-R3	Shift SRC reg value to right by bits specified in POS reg, update flags
