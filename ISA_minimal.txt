@@ -1,9 +1,23 @@
 -8 bit architecture
 -8 bit instruction length
--Little endian
+-Separate Instruction and Data space
+-Suports only positive integer
 -Byte(8)/Half Word(16)/Word(32)/Double Word(64)
 -8 General Purpose Registers: R0,R1,R2,R3,MADDR,RES,SP,MVSPR
--8 Special Purpose Registers:CTRL0,FAULT,FLAGS,PC etc
+-8 Special Purpose Registers:CTRL,FAULT,FLAGS,PC,SEG, etc
+Register Usage:
+  -R0/1/2/3 reg are general purpose register to temporarily store values and perform ALU operation
+  -MADDR reg is used for instructions that interact with addresses like load, store, jump, call, etc
+  -RES reg is used to store the result of ALU operations
+  -SP reg is the Stack Pointer register, used by push, pop, etc
+  -MVSPR reg is used to move value to or from Special registers, used by MGS and MSG
+  -CTRL reg is used to configure the system behaviour
+  -FAULT reg is used to store the error information
+  -FLAGS reg is used to store different flags like Carry, Zero, etc
+  -PC reg is the Program Counter, used to point to the instruction address
+  -SEG reg is used to store the segment address. This expands the max address range from 0-255 to 0-65535.
+	Final address is calculated with SEG+MADDR.
+
 
 Instruction:
 
