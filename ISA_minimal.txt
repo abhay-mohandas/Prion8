@@ -1,22 +1,22 @@
 -8 bit architecture
--8 bit instruction length
--Separate Instruction and Data space
--Suports only positive integer
--Byte(8)/Half Word(16)/Word(32)/Double Word(64)
--8 General Purpose Registers: R0,R1,R2,R3,MADDR,RES,SP,MVSPR
--8 Special Purpose Registers:CTRL,FAULT,FLAGS,PC,SEG, etc
+-16 bit instruction length
+-Separate Instruction, Data and System space. Each 2^16 bytes
+  -Virtual address is used for Instruction and Data space
+  -System Space will be split for various uses
+-8 8-bit General Purpose Registers: R0,R1,R2,R3,RES0,RES1,PD0,PD1
+-8 16-bit Special Purpose Registers: CTRL,FAULT,FLAGS,IP,PG,SP,MADDR,etc
 Register Usage:
-  -R0/1/2/3 reg are general purpose register to temporarily store values and perform ALU operation
+  -R0-3 reg are general purpose register to temporarily store values and perform ALU operation
   -MADDR reg is used for instructions that interact with addresses like load, store, jump, call, etc
-  -RES reg is used to store the result of ALU operations
-  -SP reg is the Stack Pointer register, used by push, pop, etc
-  -MVSPR reg is used to move value to or from Special registers, used by MGS and MSG
+  -RES0/1 reg is used separately or together (RES1:RES0) to store the result of ALU operations or predefined uses
+  -PD0/1 reg is used separately or together (PD1:PD0) for predefined uses
   -CTRL reg is used to configure the system behaviour
   -FAULT reg is used to store the error information
-  -FLAGS reg is used to store different flags like Carry, Zero, etc
-  -PC reg is the Program Counter, used to point to the instruction address
-  -SEG reg is used to store the segment address. This expands the max address range from 0-255 to 0-65535.
-	Final address is calculated with SEG+MADDR.
+  -FLAGS reg is used to store different flags like Carry, Zero, Negative, True, etc
+  -IR reg is the Program Counter, used to point to the instruction address
+  -PG reg is used to store the base paging address, Page size of 256 bytes.
+  -SP reg is the Stack Pointer register, used for push, pop, etc
+  -MADDR reg is used for address related instructions like jump
 
 
 Instruction:
@@ -26,25 +26,31 @@ Instruction:
       00-RMV[2]  DST[3] SRC[3]  DST and SRC -> GPR	Move value from SRC reg to DST reg
     0001-SHL[4]  SRC[2] POS[2]  SRC and POS -> R0-R3 	Shift SRC reg value to left by bits specified in POS reg, update flags
     0101-SHR[4]  SRC[2] POS[2]  SRC and POS -> R0-R3	Shift SRC reg value to right by bits specified in POS reg, update flags
-    1001-ADD[4]  SRC[2] SRC[2]  SRC -> R0-R3		SRC+SRC=RES, update flags
-    1101-SUB[4]  SRC[2] SRC[2]  SRC -> R0-R3		SRC-SRC=RES, update flags
-    0010-AND[4]  SRC[2] SRC[2]  SRC -> R0-R3		Bitwise AND, store result in RES and update flags
-    0110-OR[4]   SRC[2] SRC[2]  SRC -> R0-R3		Bitwise OR, store result in RES and update flags
-    1010-XOR[4]  SRC[2] SRC[2]  SRC -> R0-R3		Bitwise XOR, store result in RES and update flags
-    1110-IMV[4]  IMM[4]		IMMEDIATE VALUE		Move 4bit immediate value to the lower 4bits of RES
-   00011-MGS[5]  SRC[3]		SRC -> SPR		(M)ove (G)PR to (S)PR, move value from MVSPR to SRC SPR
-   10011-MSG[5]  SRC[3]		SRC -> SPR		(M)ove (S)PR to (G)PR, move value from SRC SPR to MVSPR
-   01011-RESERVED
-   11011-RESERVED
+    1001-ADD[4]  SRC[2] SRC[2]  SRC -> R0-R3		SRC+SRC=RES0, update flags
+    1101-SUB[4]  SRC[2] SRC[2]  SRC -> R0-R3		SRC-SRC=RES0, update flags
+    0010-AND[4]  SRC[2] SRC[2]  SRC -> R0-R3		Bitwise AND, store result in RES0 and update flags
+    0110-OR[4]   SRC[2] SRC[2]  SRC -> R0-R3		Bitwise OR, store result in RES0 and update flags
+    1010-XOR[4]  SRC[2] SRC[2]  SRC -> R0-R3		Bitwise XOR, store result in RES0 and update flags
+    1110-IMV[4]  IMM[4]		IMMEDIATE VALUE		Move 4-bit immediate value to the lower 4bits of RES
+   00011-MGS[5]  SRC[3]		SRC -> SPR		(M)ove (G)PR to (S)PR, move value from [PD1:PD0] to SRC SPR
+   10011-MSG[5]  SRC[3]		SRC -> SPR		(M)ove (S)PR to (G)PR, move value from SRC SPR to [PD1:PD0]
+00001011-SMW[8]						(S)ystem(M)emory(W)rite, write value from PD0 to address in MADDR
+00011011-SMR[8]						(S)ystem(M)emory(R)rite, read value from address in MADDR to PD0
+00101011-MUL[8]						PD1*PD0=[RES1:RES0]
+00111011-DIV[8]						PD1/PD0=[Remainer in RES1][Quotient in RES0]
+01001011-NOP[8]						No Operation
+01011011-BTS[8]						Set bit in PD0 at position specified by the value in PD1, position value from 0 to 7
+01101011-BTC[8]						Clear bit in PD0 at position specified by the value in PD1, position value from 0 to 7
+01111011-11111011[RESERVED]
   000111-PUSH[6] SRC[2]		SRC -> R0-R3		Push the value in SRC reg onto the stack and update SP
   001111-POP[6]  SRC[2]		SRC -> R0-R3		Pop the value from stack into SRC reg and update SP
   010111-LD[6]   SRC[2]		SRC -> R0-R3		Load value from address in MADDR into SRC reg
   011111-ST[6]   SRC[2]		SRC -> R0-R3		Store value in SRC reg into address in MADDR
-  100111-ACR[6]  SRC[2]		SRC -> R0-R3		(A)dd (C)arry to (R)eg,SRC+CF=REG and update flags
-  101111-SCR[6]  SRC[2]		SRC -> R0-R3		(S)ub (C)arry from (R)eg,SRC-CF=REG and update flags
+  100111-ACR[6]  SRC[2]		SRC -> R0-R3		(A)dd (C)arry to (R)eg,SRC+CF=RES0 and update flags
+  101111-SCR[6]  SRC[2]		SRC -> R0-R3		(S)ub (C)arry from (R)eg,SRC-CF=RES0 and update flags
   110111-CMP[6]  SRC[2]		SRC -> R0-R3		Compare, RES-SRC and update flags
 00111111-JMP[8]						Jump to address in MADDR
-01111111-JZ[8]						Jump to address in MADDR if ZF=1
+01111111-JT[8]						Jump to address in MADDR if True Flag=1
 10111111-CALL[8]					Call to address in MADDR and save return address in stack
 11111111-RET[8]						Return to return address saved in stack
 
