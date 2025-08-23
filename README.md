@@ -1,8 +1,8 @@
 # project-0
 
--8 bit architecture.
--8 bit instruction length.
--16 bit address length.
+- 8 bit architecture.
+- 8 bit instruction length.
+- 16 bit address length.
 -Separate Instruction, Data and System space. Each 2^16 bytes.
   -Virtual address is used for Instruction and Data space.
   -System Space will be split for various uses.
