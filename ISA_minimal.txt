@@ -1,27 +1,4 @@
--8 bit architecture
--8 bit instruction length
--16 bit address length
--Separate Instruction, Data and System space. Each 2^16 bytes
-  -Virtual address is used for Instruction and Data space
-  -System Space will be split for various uses
--8 8-bit General Purpose Registers: R0,R1,R2,R3,RES0,RES1,PD0,PD1
--8 16-bit Special Purpose Registers: CTRL,FAULT,FLAGS,IP,PG,SP,MADDR,PID
-Register Usage:
-  -R0-3 reg are general purpose register to temporarily store values and perform ALU operation
-  -MADDR reg is used for instructions that interact with addresses like load, store, jump, call, etc
-  -RES0/1 reg is used separately or together (RES1:RES0) to store the result of ALU operations or predefined uses
-  -PD0/1 reg is used separately or together (PD1:PD0) for predefined uses
-  -CTRL reg is used to configure the system behaviour
-  -FAULT reg is used to store the error information
-  -FLAGS reg is used to store different flags like Carry, Zero, Negative, True, etc
-  -IR reg is the Program Counter, used to point to the instruction address
-  -PG reg is used to store the base paging address, Page size of 256 bytes
-  -SP reg is the Stack Pointer register, used for push, pop, etc
-  -MADDR reg is used for address related instructions like jump
-  -(?)PID reg holds the Program ID, idea is to provide some degree of isolation between programs.
-
-
-Instruction:
+Instructions:
 
  7:0    - Instruction
          0         :         7 
@@ -33,7 +10,7 @@ Instruction:
     0010-AND[4]  SRC[2] SRC[2]  SRC -> R0-R3		Bitwise AND, store result in RES0 and update flags
     0110-OR[4]   SRC[2] SRC[2]  SRC -> R0-R3		Bitwise OR, store result in RES0 and update flags
     1010-XOR[4]  SRC[2] SRC[2]  SRC -> R0-R3		Bitwise XOR, store result in RES0 and update flags
-    1110-IMV[4]  IMM[4]		IMMEDIATE VALUE		Move 4-bit immediate value to the lower 4bits of RES
+    1110-IMV[4]  IMM[4]		IMMEDIATE VALUE[4]		Move 4-bit immediate value to the lower 4-bits of PD0
    00011-MGS[5]  SRC[3]		SRC -> SPR		(M)ove (G)PR to (S)PR, move value from [PD1:PD0] to SRC SPR
    10011-MSG[5]  SRC[3]		SRC -> SPR		(M)ove (S)PR to (G)PR, move value from SRC SPR to [PD1:PD0]
 00001011-SMW[8]						(S)ystem(M)emory(W)rite, write value from PD0 to address in MADDR
@@ -43,7 +20,12 @@ Instruction:
 01001011-NOP[8]						No Operation
 01011011-BTS[8]						Set bit in PD0 at position specified by the value in PD1, position value from 0 to 7
 01101011-BTC[8]						Clear bit in PD0 at position specified by the value in PD1, position value from 0 to 7
-01111011-11111011[RESERVED]
+01111011-JMP[8]						Jump to address in MADDR
+10001011-JT[8]            Jump to address in MADDR if True Flag=1
+10011011-11101011[RESERVED]
+11111011-OPEX[8]          Opcode Extension, provides upto 256 additional instructions. Possible implementations: 
+                          1) Data in PD1 is executed as instruction
+                          2) Intruction fetched after OPEX
   000111-PUSH[6] SRC[2]		SRC -> R0-R3		Push the value in SRC reg onto the stack and update SP
   001111-POP[6]  SRC[2]		SRC -> R0-R3		Pop the value from stack into SRC reg and update SP
   010111-LD[6]   SRC[2]		SRC -> R0-R3		Load value from address in MADDR into SRC reg
@@ -51,8 +33,8 @@ Instruction:
   100111-ACR[6]  SRC[2]		SRC -> R0-R3		(A)dd (C)arry to (R)eg,SRC+CF=RES0 and update flags
   101111-SCR[6]  SRC[2]		SRC -> R0-R3		(S)ub (C)arry from (R)eg,SRC-CF=RES0 and update flags
   110111-CMP[6]  SRC[2]		SRC -> R0-R3		Compare, RES-SRC and update flags
-00111111-JMP[8]						Jump to address in MADDR
-01111111-JT[8]						Jump to address in MADDR if True Flag=1
+00111111-JZ[8]						Jump to address in MADDR if Carry Flag=1
+01111111-JC[8]						Jump to address in MADDR if Zero Flag=1
 10111111-CALL[8]					Call to address in MADDR and save return address in stack
 11111111-RET[8]						Return to return address saved in stack
 
