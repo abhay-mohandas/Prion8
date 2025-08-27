@@ -8,6 +8,7 @@
   - System Space will be split for various uses.
 - 8 8-bit General Purpose Registers: R0,R1,R2,R3,RES0,RES1,PD0,PD1.
 - 8 16-bit Special Purpose Registers: CTRL,FAULT,FLAGS,IP,PG,SP,MADDR,PID.
+
 Register Usage:
   - R0-3 reg are general purpose register to temporarily store values and perform ALU operation.
   - MADDR reg is used for instructions that interact with addresses like load, store, jump, call, etc.
