@@ -21,11 +21,11 @@ Instructions:
 01011011-BTS[8]						Set bit in PD0 at position specified by the value in PD1, position value from 0 to 7
 01101011-BTC[8]						Clear bit in PD0 at position specified by the value in PD1, position value from 0 to 7
 01111011-JMP[8]						Jump to address in MADDR
-10001011-JT[8]            Jump to address in MADDR if True Flag=1
+10001011-JT[8]            				Jump to address in MADDR if True Flag=1
 10011011-11101011[RESERVED]
-11111011-OPEX[8]          Opcode Extension, provides upto 256 additional instructions. Possible implementations: 
-                          1) Data in PD1 is executed as instruction
-                          2) Intruction fetched after OPEX
+11111011-OPEX[8]          				Opcode Extension, provides upto 256 additional instructions. Possible implementations: 
+                          				1) Data in PD1 is executed as instruction (Data to Instruction)
+                          				2) Next fetched instruction (Pipelined Instruction)
   000111-PUSH[6] SRC[2]		SRC -> R0-R3		Push the value in SRC reg onto the stack and update SP
   001111-POP[6]  SRC[2]		SRC -> R0-R3		Pop the value from stack into SRC reg and update SP
   010111-LD[6]   SRC[2]		SRC -> R0-R3		Load value from address in MADDR into SRC reg
