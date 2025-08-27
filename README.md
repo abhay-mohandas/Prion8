@@ -1,4 +1,4 @@
-# project-0
+# Prion8
 
 - 8 bit architecture.
 - 8 bit instruction length.
