@@ -1,4 +1,4 @@
-Prion8
+\#Prion8
 
 -8 bit architecture and instruction length.
 
@@ -16,7 +16,7 @@ Prion8
 
 
 
-Register Usage:
+\##Register Usage:
 
 -R0-3 reg are general purpose register to temporarily store values and perform ALU operation.
 
@@ -42,7 +42,7 @@ Register Usage:
 
 
 
-CTRL Register:
+\###CTRL Register:
 
 
 
@@ -50,7 +50,7 @@ CTRL Register:
 
 |----|----------|----------------------------------------------------|
 
-|  0 |AND       |                                                    |
+|0   |AND       |                                                    |
 
-|  1 |OR        |                                                    |
+|1   |OR        |                                                    |
 
