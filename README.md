@@ -1,4 +1,4 @@
-\#Prion8
+\# Prion8
 
 -8 bit architecture and instruction length.
 
@@ -6,9 +6,9 @@
 
 -Separate Instruction, Data and System space. Each 2^16 bytes.
 
-&nbsp;	-Virtual address is used for Instruction and Data space.
+ 	-Virtual address is used for Instruction and Data space.
 
-&nbsp;	-System Space will be split for various uses.
+ 	-System Space will be split for various uses.
 
 -8 8-bit General Purpose Registers: R0,R1,R2,R3,RES0,RES1,PD0,PD1.
 
@@ -16,7 +16,7 @@
 
 
 
-\##Register Usage:
+\## Register Usage:
 
 -R0-3 reg are general purpose register to temporarily store values and perform ALU operation.
 
@@ -42,7 +42,7 @@
 
 
 
-\###CTRL Register:
+\### CTRL Register:
 
 
 
@@ -50,7 +50,7 @@
 
 |----|----------|----------------------------------------------------|
 
-|0   |AND       |                                                    |
+|0   |USER      |In user mode if 1, else in system mode              |
 
-|1   |OR        |                                                    |
+|1   |PAGING    |Paging enabled if 1                                 |
 
