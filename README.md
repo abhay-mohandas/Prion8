@@ -2,8 +2,8 @@
 - 8 bit architecture and instruction length.
 - 16 bit address length.
 - Separate Instruction, Data and System space. Each 2^16 bytes.
- 	- Virtual address is used for Instruction and Data space.
- 	- System Space will be split for various uses.
+  - Virtual address is used for Instruction and Data space.
+  - System Space will be split for various uses.
 - 8x8-bit General Purpose Registers: R0,R1,R2,R3,RES0,RES1,PD0,PD1.
 - 8x16-bit Special Purpose Registers: CTRL,FAULT,FLAGS,IP,PG,SP,MADDR,PID.
 
