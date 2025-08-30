@@ -23,5 +23,17 @@
 ### CTRL Register:
 |Bits|Name      |Description                                         |
 |----|----------|----------------------------------------------------|
-|0   |USER      |In user mode if 1, else in system mode              |
+|0   |US        |User Mode. Enabled if 1, else in system mode        |
 |1   |PAGING    |Paging enabled if 1                                 |
+|2:15|RESERVED  |MBZ                                                 |
+
+
+### FLAG Register:
+|Bits|Name      |Description                   |
+|----|----------|------------------------------|
+|0   |CF        |Carry flag                    |
+|1   |ZF        |Zero flag                     |
+|2   |NF        |Negative flag                 |
+|3   |TF        |True flag                     |
+|4   |IF        |Interrupt flag                |
+|5:15|RESERVED  |MBZ                           |
