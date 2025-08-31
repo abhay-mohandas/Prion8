@@ -3,40 +3,51 @@ Instructions:
  7:0    - Instruction
          0         :         7 
       00-RMV[2]  DST[3] SRC[3]  DST and SRC -> GPR	Move value from SRC reg to DST reg
-    0001-SHL[4]  SRC[2] POS[2]  SRC and POS -> R0-R3 	Shift SRC reg value to left by bits specified in POS reg, update flags
-    0101-SHR[4]  SRC[2] POS[2]  SRC and POS -> R0-R3	Shift SRC reg value to right by bits specified in POS reg, update flags
-    1001-ADD[4]  SRC[2] SRC[2]  SRC -> R0-R3		SRC+SRC=RES0, update flags
-    1101-SUB[4]  SRC[2] SRC[2]  SRC -> R0-R3		SRC-SRC=RES0, update flags
-    0010-AND[4]  SRC[2] SRC[2]  SRC -> R0-R3		Bitwise AND, store result in RES0 and update flags
-    0110-OR[4]   SRC[2] SRC[2]  SRC -> R0-R3		Bitwise OR, store result in RES0 and update flags
-    1010-XOR[4]  SRC[2] SRC[2]  SRC -> R0-R3		Bitwise XOR, store result in RES0 and update flags
-    1110-IMV[4]  IMM[4]		IMMEDIATE VALUE[4]	Move 4-bit immediate value to the lower 4-bits of PD0
-   00011-MGS[5]  SRC[3]		SRC -> SPR		(M)ove (G)PR to (S)PR, move value from [PD1:PD0] to SRC SPR
-   10011-MSG[5]  SRC[3]		SRC -> SPR		(M)ove (S)PR to (G)PR, move value from SRC SPR to [PD1:PD0]
-00001011-SMW[8]						(S)ystem(M)emory(W)rite, write value from PD0 to address in MADDR
-00011011-SMR[8]						(S)ystem(M)emory(R)rite, read value from address in MADDR to PD0
-00101011-MUL[8]						PD1*PD0=[RES1:RES0]
-00111011-DIV[8]						PD1/PD0=[Remainer in RES1][Quotient in RES0]
-01001011-NOP[8]						No Operation
-01011011-BTS[8]						Set bit in PD0 at position specified by the value in PD1, position value from 0 to 7
-01101011-BTC[8]						Clear bit in PD0 at position specified by the value in PD1, position value from 0 to 7
-01111011-JMP[8]						Jump to address in MADDR
-10001011-JT[8]            				Jump to address in MADDR if True Flag=1
-10011011-CALL[8]					Call to address in MADDR and save return address in stack
-10101011-RET[8]						Return to return address saved in stack
-10111011-LWO[8]						(L)oad (W)ith (O)ffset, Load value from address MADDR+PD0 into PD1
-11001011-SWO[8]						(S)tore (W)ith (O)ffset, Store value from PD1 to address MADDR+PD0
-11011011-INTR[8]					Signal Interrupt, Interrupt number is specified in PD0
-11101011-FENCE[8]					Used to serialise all previous memory operations
-11111011-OPEX[8]          				Opcode Extension, the next instruction byte is executed as extended opcode
-  000111-PUSH[6] SRC[2]		SRC -> R0-R3		Push the value in SRC reg onto the stack and update SP
-  001111-POP[6]  SRC[2]		SRC -> R0-R3		Pop the value from stack into SRC reg and update SP
-  010111-LD[6]   SRC[2]		SRC -> R0-R3		Load value from address in MADDR into SRC reg
-  011111-ST[6]   SRC[2]		SRC -> R0-R3		Store value in SRC reg into address in MADDR
-  100111-ACR[6]  SRC[2]		SRC -> R0-R3		(A)dd (C)arry to (R)eg,SRC+CF=RES0 and update flags
-  101111-SCR[6]  SRC[2]		SRC -> R0-R3		(S)ub (C)arry from (R)eg,SRC-CF=RES0 and update flags
-  110111-CMP[6]  SRC[2]		SRC -> R0-R3		Compare, RES-SRC and update flags
-00111111-JZ[8]						Jump to address in MADDR if Zero Flag=1
-01111111-JNZ[8]						Jump to address in MADDR if Zero Flag=0
-10111111-JC[8]						Jump to address in MADDR if Zero Flag=1
-11111111-JNC[8]						Jump to address in MADDR if Carry Flag=0
+    0001-IMM[4]  Immediate[4]				Move 4-bit immediate value to the lower 4-bits of RA
+   00101-LD[5]   SRC[3]		SRC -> GPR		Load value from address in MADDR into SRC reg
+   01001-ST[5]   SRC[3]		SRC -> GPR		Store value in SRC reg into address in MADDR
+   01101-PUSH[5] SRC[3]		SRC -> GPR		Push the value in SRC reg onto the stack and update SP
+   10101-POP[5]  SRC[3]		SRC -> GPR		Pop the value from stack into SRC reg and update SP
+   11001-INC[5]  SRC[3]		SRC -> GPR		Increment the value in SRC by 1
+   11101-DEC[5]  SRC[3]		SRC -> GPR		Decrement the value in SRC by 1
+   00010-ADD[5]  SRC[3]		SRC -> GPR		Add SRC to RA and store the result in RA, update flags
+   00110-SUB[5]  SRC[3]		SRC -> GPR		Sub SRC from RA and store the result in RA, update flags
+   01010-AND[5]  SRC[3]		SRC -> GPR		AND SRC to RA and store the result in RA, update flags
+   01110-OR[5]   SRC[3]		SRC -> GPR		OR SRC to RA and store the result in RA, update flags
+   10010-XOR[5]  SRC[3]		SRC -> GPR		XOR SRC to RA and store the result in RA, update flags
+   10110-NOT[5]  SRC[3]		SRC -> GPR		NOT SRC to RA and store the result in RA, update flags
+   11010-SHL[5]  SRC[3]		SRC -> GPR		Shift Left value in RA by the value in SRC, update flags
+   11110-SHR[5]  SRC[3]		SRC -> GPR		Shift Right value in RA by the value in SRC, update flags
+00000011-JMP[8]						Jump to address in MADDR
+00000111-JZ[8]						Jump to address in MADDR if Zero Flag=1
+00001011-JNZ[8]						Jump to address in MADDR if Zero Flag=0
+00001111-JC[8]						Jump to address in MADDR if Carry Flag=1
+00010011-JNC[8]						Jump to address in MADDR if Carry Flag=0
+00010111-JT[8]            				Jump to address in MADDR if True Flag=1
+00011011-CALL[8]					Call to address in MADDR and save return address in stack
+00011111-RET[8]						Return to return address saved in stack
+00100011-CMP[8]						Compare, RB-RA and update flags
+00100111-MUL[8]						RC*RD=[RB:RA]
+00101011-DIV[8]						RC/RD=[Remainer in RB][Quotient in RA]
+00101111-BT[8]						Copy the bit value in RA at position specified by the value in RB, position value from 0 to 7
+00110011-BTS[8]						Set bit in RA at position specified by the value in RB, position value from 0 to 7
+00110111-BTC[8]						Clear bit in RA at position specified by the value in RB, position value from 0 to 7
+00111111-ACR[8]						(A)dd (C)arry to (R)A, RA+CF=RA and update flags
+01000011-SCR[8]						(S)ub (C)arry from (R)eg, RA-CF=RA and update flags
+01000111-MGS[8]						(M)ove (G)PR to (S)PR, move value from [RB:RA] to SRC SPR specified in RC
+01001011-MSG[8]						(M)ove (G)PR to (S)PR, move value from SRC SPR specified in RC to [RB:RA]
+01001111-NOP[8]						No operation
+01010011-LWO[8]						(L)oad (W)ith (O)ffset, Load value from address MADDR+RA into RB
+01010111-SWO[8]						(S)tore (W)ith (O)ffset, Store value from RB to address MADDR+RA
+01011011-INTR[8]					Signal Interrupt, Interrupt number is specified in RC
+01011111-IRET[8]					Return from Interrupt
+01100011-FENCE[8]					Used to serialise all previous memory operations
+01100111-CLRGP[8]					Clear all the GPRs
+01101011-SWRB0[8]					(S)wap (W)ith (R)egister (B)ank 0, values of GPRs and Reg Bank0 is swapped
+01101111-SWRB1[8]					(S)wap (W)ith (R)egister (B)ank 1, values of GPRs and Reg Bank1 is swapped
+01110011-SFB[8]						(S)et (F)lag (B)it, set flag specified in RA
+01110111-CFB[8]						(C)lear (F)lag (B)it, clear flag specified in RA
+01111011-/TO BE EDITED/
+01111111-/TO BE EDITED/
+
+10000011-11111111 [RESERVED]
