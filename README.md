@@ -4,13 +4,12 @@
 - Separate Instruction, Data and System space. Each 2^16 bytes.
   - Virtual address is used for Instruction and Data space.
   - System Space will be split for various uses.
-- 8x8-bit General Purpose Registers: R0,R1,R2,R3,RES0,RES1,PD0,PD1.
-- 8x16-bit Special Purpose Registers: CTRL,FAULT,FLAGS,IP,PG,SP,MADDR,PID.
+- 8x8-bit General Purpose Registers: RA,RB,RC,RD,R0,R1,R2,R3.
+- 16x16-bit Special Purpose Registers: CTRL,FAULT,FLAGS,IP,PG,SP,MADDR,etc.
 
 ## Register Usage:
-- R0/1/2/3 reg are general purpose register to temporarily store values and perform ALU operation.
-- RES0/1 reg is used separately or together (RES1:RES0) to store the result of ALU operations or predefined uses.
-- PD0/1 reg is used separately or together (PD1:PD0) for predefined uses.
+- RA-D reg are general purpose register to temporarily store values, perform ALU operation or have predefined uses.
+- R0-3 reg are general purpose register to temporarily store values or perform ALU operation.
 - CTRL reg is used to configure the system behaviour.
 - FAULT reg is used to store the error information.
 - FLAGS reg is used to store different flags like Carry, Zero, etc.
@@ -18,14 +17,15 @@
 - PG reg is used to store the base paging address, Page size of 256 bytes.
 - SP reg is the Stack Pointer register, used for push, pop, etc.
 - MADDR reg is used for address related instructions like jump/load/store.
-- (?)PID reg holds the Program ID, idea is to provide some degree of isolation between programs.
 
 ### CTRL Register:
 |Bits|Name      |Description                                         |
 |----|----------|----------------------------------------------------|
-|0   |US        |User Mode. Enabled if 1, else in system mode        |
-|1   |PAGING    |Paging enabled if 1                                 |
-|2:15|RESERVED  |MBZ                                                 |
+|0   |US        |User Mode. Enabled if 1, else in supervisor mode    |
+|1   |PG        |Paging enabled if 1                                 |
+|2   |OE        |Opcode extention enabled if 1                       |
+|3   |RB        |Register Bank, 2 Banks in total                     |
+|4:15|RESERVED  |MBZ                                                 |
 
 
 ### FLAG Register:
