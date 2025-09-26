@@ -27,8 +27,8 @@ Instructions:
 00011011-CALL[8]					Call to address in MADDR and save return address in stack
 00011111-RET[8]						Return to return address saved in stack
 00100011-CMP[8]						Compare, RB-RA and update flags
-00100111-MUL[8]						RC*RD=[RB:RA]
-00101011-DIV[8]						RC/RD=[Remainer in RB][Quotient in RA]
+00100111-MUL[8]						RC*RD=[RB:RA] and update flags
+00101011-DIV[8]						RC/RD=[Remainer in RB][Quotient in RA] and update flags
 00101111-BT[8]						Copy the bit value in RA at position specified by the value in RB, position value from 0 to 7
 00110011-BTS[8]						Set bit in RA at position specified by the value in RB, position value from 0 to 7
 00110111-BTC[8]						Clear bit in RA at position specified by the value in RB, position value from 0 to 7
@@ -36,18 +36,19 @@ Instructions:
 01000011-SCR[8]						(S)ub (C)arry from (R)eg, RA-CF=RA and update flags
 01000111-MGS[8]						(M)ove (G)PR to (S)PR, move value from [RB:RA] to SRC SPR specified in RC
 01001011-MSG[8]						(M)ove (G)PR to (S)PR, move value from SRC SPR specified in RC to [RB:RA]
-01001111-NOP[8]						No operation
+01001111-FENCE[8]					Used to serialise all previous memory operations
 01010011-LWO[8]						(L)oad (W)ith (O)ffset, Load value from address MADDR+RA into RB
 01010111-SWO[8]						(S)tore (W)ith (O)ffset, Store value from RB to address MADDR+RA
 01011011-INTR[8]					Signal Interrupt, Interrupt number is specified in RC
-01011111-IRET[8]					Return from Interrupt
-01100011-FENCE[8]					Used to serialise all previous memory operations
+01011111-SFB[8]						(S)et (F)lag (B)it, set flag specified in RA
+01100011-CFB[8]						(C)lear (F)lag (B)it, clear flag specified in RA
 01100111-CLRGP[8]					Clear all the GPRs
 01101011-SWRB0[8]					(S)wap (W)ith (R)egister (B)ank 0, values of GPRs and Reg Bank0 is swapped
 01101111-SWRB1[8]					(S)wap (W)ith (R)egister (B)ank 1, values of GPRs and Reg Bank1 is swapped
-01110011-SFB[8]						(S)et (F)lag (B)it, set flag specified in RA
-01110111-CFB[8]						(C)lear (F)lag (B)it, clear flag specified in RA
+01110011-/TO BE EDITED/
+01110111-/TO BE EDITED/
 01111011-/TO BE EDITED/
 01111111-/TO BE EDITED/
 
-10000011-11111111 [RESERVED]
+10000011-11111011 [RESERVED]
+11111111-NOP[8]						No operation

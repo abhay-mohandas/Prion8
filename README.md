@@ -5,7 +5,7 @@
   - Virtual address is used for Instruction and Data space.
   - System Space will be split for various uses.
 - 8x8-bit General Purpose Registers: RA,RB,RC,RD,R0,R1,R2,R3.
-- 16x16-bit Special Purpose Registers: CTRL,FAULT,FLAGS,IP,PG,SP,MADDR,etc.
+- 16x16-bit Special Purpose Registers: CTRL,FAULT,FLAGS,IP,PG,SP,MADDR,IOR,etc.
 
 ## Register Usage:
 - RA-D reg are general purpose register to temporarily store values, perform ALU operation or have predefined uses.
@@ -17,6 +17,7 @@
 - PG reg is used to store the base paging address, Page size of 256 bytes.
 - SP reg is the Stack Pointer register, used for push, pop, etc.
 - MADDR reg is used for address related instructions like jump/load/store.
+- IOR reg is used for I/O operations.
 
 ### CTRL Register:
 |Bits|Name      |Description                                         |
@@ -24,8 +25,7 @@
 |0   |US        |User Mode. Enabled if 1, else in supervisor mode    |
 |1   |PG        |Paging enabled if 1                                 |
 |2   |OE        |Opcode extention enabled if 1                       |
-|3   |RB        |Register Bank, 2 Banks in total                     |
-|4:15|RESERVED  |MBZ                                                 |
+|3:15|RESERVED  |MBZ                                                 |
 
 
 ### FLAG Register:
