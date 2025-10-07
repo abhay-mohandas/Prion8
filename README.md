@@ -20,9 +20,9 @@
 - MADDR reg is used for address related instructions like jump/load/store.
 - IOR reg is used for I/O operations, holds the values to/from I/O devices.
 - OPEX reg is used for opcode extension and holds the Opcode Set number.
-	-- Defines the behaviour of opcodes from 0x80[7:3]-0xFC[7:3] (32 ops in total) based on the Opcode Set number.
-	-- This increases the theoretical limit of ops from 32 to over 2M(32*(2**16)) ops.
-	-- Disabled if CTRL.OE is 0 and the ops will have the behaviour of Opcode Set 0.
+	- Defines the behaviour of opcodes from 0x80[7:3]-0xFC[7:3] (32 ops in total) based on the Opcode Set number.
+	- This increases the theoretical limit of ops from 32 to over 2M(32*(2**16)) ops.
+	- Disabled if CTRL.OE is 0 and the ops will have the behaviour of Opcode Set 0.
 
 	
 
