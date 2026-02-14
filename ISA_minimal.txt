@@ -3,13 +3,13 @@ Instructions:
 7   :  0    - Instruction
          0         :         7 
 00000000-NOP[8]						No operation
-00000100-JZ[8]						Jump to address in MADDR if Zero Flag=1
-00001000-JNZ[8]						Jump to address in MADDR if Zero Flag=0
-00001100-JC[8]						Jump to address in MADDR if Carry Flag=1
-00010000-JNC[8]						Jump to address in MADDR if Carry Flag=0
-00010100-JT[8]            			Jump to address in MADDR if True Flag=1
-00011000-JMP[8]						Jump to address in MADDR
-00011100-CALL[8]					Call to address in MADDR and save return address in stack
+00000100-JZ[8]						Jump to address in MA0 if Zero Flag=1
+00001000-JNZ[8]						Jump to address in MA0 if Zero Flag=0
+00001100-JC[8]						Jump to address in MA0 if Carry Flag=1
+00010000-JNC[8]						Jump to address in MA0 if Carry Flag=0
+00010100-JT[8]            			Jump to address in MA0 if True Flag=1
+00011000-JMP[8]						Jump to address in MA0
+00011100-CALL[8]					Call to address in MA0 and save return address in stack
 00100000-RET[8]						Return to return address saved in stack
 00100100-MUL[8]						RC*RD=[RB:RA] and update flags
 00101000-DIV[8]						RC/RD=[Remainer in RB][Quotient in RA] and update flags
@@ -21,8 +21,8 @@ Instructions:
 01000000-MGS[8]						(M)ove (G)PR to (S)PR, move value from [RB:RA] to SRC SPR specified in RC
 01000100-MSG[8]						(M)ove (G)PR to (S)PR, move value from SRC SPR specified in RC to [RB:RA]
 01001000-FENCE[8]					Used to serialise all previous memory operations
-01001100-LWO[8]						(L)oad (W)ith (O)ffset, Load value from address MADDR+RA into RB
-01010000-SWO[8]						(S)tore (W)ith (O)ffset, Store value from RB to address MADDR+RA
+01001100-LWO[8]						(L)oad (W)ith (O)ffset, Load value from address MA0+RA into RB
+01010000-SWO[8]						(S)tore (W)ith (O)ffset, Store value from RB to address MA0+RA
 01010100-INTR[8]					Signal Interrupt, Interrupt number is specified in RC
 01011000-SFB[8]						(S)et (F)lag (B)it, set flag specified in RA
 01011100-CFB[8]						(C)lear (F)lag (B)it, clear flag specified in RA
@@ -32,14 +32,14 @@ Instructions:
 01101100-SWRB1[8]					(S)wap (W)ith (R)egister (B)ank 1, values of GPRs and Reg Bank1 is swapped
 01110000-SWRB2[8]					(S)wap (W)ith (R)egister (B)ank 2, values of GPRs and Reg Bank2 is swapped
 01110100-CMP[8]						Compare, RB-RA and update flags
-01111000-LDH[8]						Load half word/2 bytes from address in MADDR to [RB:RA]
-01111100-STH[8]						Store half word/2 bytes to address in MADDR from [RB:RA]
+01111000-LDH[8]						Load half word/2 bytes from address in MA0 to [RB:RA]
+01111100-STH[8]						Store half word/2 bytes to address in MA0 from [RB:RA]
 
 10000000-11111100 [OPEX DEFINED]
 
     0001-IMM[4]  Immediate[4]				Move 4-bit immediate value to the lower 4-bits of RA
-   00101-LD[5]   SRC[3]		SRC -> GPR		Load value from address in MADDR into SRC reg 
-   01001-ST[5]   SRC[3]		SRC -> GPR		Store value in SRC reg into address in MADDR
+   00101-LD[5]   SRC[3]		SRC -> GPR		Load value from address in MA0 into SRC reg 
+   01001-ST[5]   SRC[3]		SRC -> GPR		Store value in SRC reg into address in MA0
    01101-PUSH[5] SRC[3]		SRC -> GPR		Push the value in SRC reg onto the stack and update SP
    10101-POP[5]  SRC[3]		SRC -> GPR		Pop the value from stack into SRC reg and update SP
    11001-INC[5]  SRC[3]		SRC -> GPR		Increment the value in SRC by 1
