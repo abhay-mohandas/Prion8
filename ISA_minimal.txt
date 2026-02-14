@@ -13,23 +13,24 @@ Instructions:
 00100000-RET[8]						Return to return address saved in stack
 00100100-MUL[8]						RC*RD=[RB:RA] and update flags
 00101000-DIV[8]						RC/RD=[Remainer in RB][Quotient in RA] and update flags
-00101100-BT[8]						Copy the bit value in RA at position specified by the value in RB, position value from 0 to 7
+00101100-BT[8]						Copy the bit value in RA to Carry Flag at position specified by the value in RB, position value from 0 to 7
 00110000-BTS[8]						Set bit in RA at position specified by the value in RB, position value from 0 to 7
 00110100-BTC[8]						Clear bit in RA at position specified by the value in RB, position value from 0 to 7
-00111100-ACR[8]						(A)dd (C)arry to (R)A, RA+CF=RA and update flags
-01000000-SCR[8]						(S)ub (C)arry from (R)eg, RA-CF=RA and update flags
-01000100-MGS[8]						(M)ove (G)PR to (S)PR, move value from [RB:RA] to SRC SPR specified in RC
-01001000-MSG[8]						(M)ove (G)PR to (S)PR, move value from SRC SPR specified in RC to [RB:RA]
-01001100-FENCE[8]					Used to serialise all previous memory operations
-01010000-LWO[8]						(L)oad (W)ith (O)ffset, Load value from address MADDR+RA into RB
-01010100-SWO[8]						(S)tore (W)ith (O)ffset, Store value from RB to address MADDR+RA
-01011000-INTR[8]					Signal Interrupt, Interrupt number is specified in RC
-01011100-SFB[8]						(S)et (F)lag (B)it, set flag specified in RA
-01100000-CFB[8]						(C)lear (F)lag (B)it, clear flag specified in RA
-01100100-CLRGP[8]					Clear all the GPRs
+00111000-ACR[8]						(A)dd (C)arry to (R)A, RA+CF=RA and update flags
+00111100-SCR[8]						(S)ub (C)arry from (R)eg, RA-CF=RA and update flags
+01000000-MGS[8]						(M)ove (G)PR to (S)PR, move value from [RB:RA] to SRC SPR specified in RC
+01000100-MSG[8]						(M)ove (G)PR to (S)PR, move value from SRC SPR specified in RC to [RB:RA]
+01001000-FENCE[8]					Used to serialise all previous memory operations
+01001100-LWO[8]						(L)oad (W)ith (O)ffset, Load value from address MADDR+RA into RB
+01010000-SWO[8]						(S)tore (W)ith (O)ffset, Store value from RB to address MADDR+RA
+01010100-INTR[8]					Signal Interrupt, Interrupt number is specified in RC
+01011000-SFB[8]						(S)et (F)lag (B)it, set flag specified in RA
+01011100-CFB[8]						(C)lear (F)lag (B)it, clear flag specified in RA
+01100000-CLRGP[8]					Clear all the GPRs, excluding Register Banks
+01100100-CLRRB[8]                   Clear all the Register Banks, excluding GPRs
 01101000-SWRB0[8]					(S)wap (W)ith (R)egister (B)ank 0, values of GPRs and Reg Bank0 is swapped
 01101100-SWRB1[8]					(S)wap (W)ith (R)egister (B)ank 1, values of GPRs and Reg Bank1 is swapped
-01110000-SWRB2[8]					(S)wap (W)ith (R)egister (B)ank 2, values of GPRs and Reg Bank2  is swapped
+01110000-SWRB2[8]					(S)wap (W)ith (R)egister (B)ank 2, values of GPRs and Reg Bank2 is swapped
 01110100-CMP[8]						Compare, RB-RA and update flags
 01111000-LDH[8]						Load half word/2 bytes from address in MADDR to [RB:RA]
 01111100-STH[8]						Store half word/2 bytes to address in MADDR from [RB:RA]
