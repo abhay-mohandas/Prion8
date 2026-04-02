@@ -7,6 +7,7 @@
   - System Space will be split for various uses.
 - 8x8-bit General Purpose Registers: RA,RB,RC,RD,R0,R1,R2,R3.
 - 16x16-bit Special Purpose Registers: CTRL,FAULT,FLAGS,IP,PG,SP,MA0,MA1,IOR,OPEX,etc.
+- 256 Regiser Banks, each with 4x8-bit registers as a part of Register Bank, these have predefined purpose.
 
 ## Register Usage:
 - RA-D reg are general purpose register to temporarily store values, perform ALU operation or have predefined uses.
