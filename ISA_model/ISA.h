@@ -66,14 +66,14 @@
 #define INSTR_RMV         0x03    //       11-RMV[2]  DST[3] SRC[3]  DST and SRC -> GPR	Move value from SRC reg to DST reg
 #define INSTR_RMV_MASK    0xFC
 
-#define GPR_RA 0x1
-#define GPR_RB 0x2
-#define GPR_RC 0x3
-#define GPR_RD 0x4
-#define GPR_R0 0x5
-#define GPR_R1 0x6
-#define GPR_R2 0x7
-#define GPR_R3 0x8
+#define GPR_RA      0x1
+#define GPR_RB      0x2
+#define GPR_RC      0x3
+#define GPR_RD      0x4
+#define GPR_R0      0x5
+#define GPR_R1      0x6
+#define GPR_R2      0x7
+#define GPR_R3      0x8
 
 #define SPR_CTRL    0x01
 #define SPR_FAULT   0x02
@@ -85,7 +85,13 @@
 #define SPR_MA1     0x08
 #define SPR_IOR     0x09
 #define SPR_OPEX    0x0A
+#define SPR_FR0    0x10
 
-#define RB_BANK0    0x0
-#define RB_BANK1    0x1
-#define RB_BANK2    0x2
+#define RB00_S0     0x0
+#define RB01_S1     0x1
+#define RB02_S2     0x2
+#define RB03_S3     0x3
+#define RB04_S4     0x4
+#define RB05_S5     0x5
+#define RB06_S6     0x6
+#define RB07_S7     0x7
