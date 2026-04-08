@@ -85,7 +85,7 @@
 #define SPR_MA1     0x08
 #define SPR_IOR     0x09
 #define SPR_OPEX    0x0A
-#define SPR_FR0    0x10
+#define SPR_FR0     0x10
 
 #define RB00_S0     0x0
 #define RB01_S1     0x1

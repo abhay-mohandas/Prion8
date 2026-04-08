@@ -28,8 +28,8 @@ Instructions:
 01011100-CFB[8]						(C)lear (F)lag (B)it, clear flag specified in RA
 01100000-CLRGP[8]					Clear all the GPRs, excluding Register Banks
 01100100-CLRRB[8]                   Clear all the Register Banks, excluding GPRs
-01101000-RFRB[8]    				(R)ead (F)rom (R)egister (B)ank, values of [RB3:RB0] is read to [R3:R0]. Register Bank is pointed with the value in RA
-01101100-WFRB[8]	    			(W)rite (t)o (R)egister (B)ank, values of [R3:R0] is written to [RB3:RB0]. Register Bank is pointed with the value in RA
+01101000-RFRB[8]    				(R)ead (F)rom (R)egister (B)ank, [RB3:RB0] is read to [R3:R0]. Register Bank index is in RA
+01101100-WFRB[8]	    			(W)rite (t)o (R)egister (B)ank, [R3:R0] is written to [RB3:RB0]. Register Bank index is in RA
 01110000-IO[8]                      Access I/O ports. I/O address in RA, value in IOR SPR. RA[7] = 0 for IN and 1 for OUT 
 01110100-CMP[8]						Compare, RB-RA and update flags
 01111000-LDH[8]						Load half word/2 bytes from address in MA0 to [RB:RA]
@@ -53,3 +53,38 @@ Instructions:
    11010-SHL[5]  SRC[3]		SRC -> GPR		Shift Left value in RA by the value in SRC, update flags
    11110-SHR[5]  SRC[3]		SRC -> GPR		Shift Right value in RA by the value in SRC, update flags
       11-RMV[2]  DST/SRC[3] DST/SRC -> GPR	Move value from SRC reg to DST reg
+
+
+OPEX0: 10000000-11111100 [OPEX DEFINED]
+10000000-ILD[8]						Instruction Load, load value from instruction space to RA, address in MA0
+10000100-IST[8]						Instruction Store, store value to instruction space from RA, address in MA0
+10001000-SLD[8]						System Load, load value from System space to RA, address in MA0
+10001100-SST[8]						System Store, store value to System space from RA, address in MA0
+10010000-SWPMA[8]					Swap MA registers, values in MA0 and MA1 is swapped.
+10010100-[8]						-
+10011000-[8]						-
+10011100-[8]						-
+10100000-[8]						-
+10100100-[8]						-
+10101000-[8]						-
+10101100-[8]						-
+10110000-[8]						-
+10110100-[8]						-
+10111000-[8]						-
+10111100-[8]						-
+11000000-[8]						-
+11000100-[8]						-
+11001000-[8]						-
+11001100-[8]						-
+11010000-[8]						-
+11010100-[8]						-
+11011000-[8]						-
+11011100-[8]						-
+11100000-[8]						-
+11100100-[8]						-
+11101000-[8]						-
+11101100-[8]						-
+11110000-[8]						-
+11110100-[8]						-
+11111000-[8]						-
+11111100-[8]						-
