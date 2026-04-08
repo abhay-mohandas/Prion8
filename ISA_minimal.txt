@@ -16,7 +16,7 @@ Instructions:
 00101100-BCPY[8]					Copy the bit value in RA to Carry Flag at position specified by the value in RB, position value from 0 to 7
 00110000-BS[8]						Set bit in RA at position specified by the value in RB, position value from 0 to 7
 00110100-BC[8]						Clear bit in RA at position specified by the value in RB, position value from 0 to 7
-00111000-ACR[8]						(A)dd (C)arry to (R)A, RA+CF=RA and update flags
+00111000-ACR[8]						(A)dd (C)arry to (R)eg, RA+CF=RA and update flags
 00111100-SCR[8]						(S)ub (C)arry from (R)eg, RA-CF=RA and update flags
 01000000-MGS[8]						(M)ove (G)PR to (S)PR, move value from [RB:RA] to SRC SPR specified in RC
 01000100-MSG[8]						(M)ove (G)PR to (S)PR, move value from SRC SPR specified in RC to [RB:RA]
