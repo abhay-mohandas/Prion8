@@ -1,3 +1,4 @@
+Note: All memory related operations are in Little Endian format, (Higher bits -> Lower bits)
 Instructions:
 
 7   :  0    - Instruction
@@ -32,12 +33,12 @@ Instructions:
 01101100-WFRB[8]	    			(W)rite (t)o (R)egister (B)ank, [R3:R0] is written to [RB3:RB0]. Register Bank index is in RA
 01110000-IO[8]                      Access I/O ports. I/O address in RA, value in IOR SPR. RA[7] = 0 for IN and 1 for OUT 
 01110100-CMP[8]						Compare, RB-RA and update flags
-01111000-LDH[8]						Load half word/2 bytes from address in MA0 to [RB:RA]
-01111100-STH[8]						Store half word/2 bytes to address in MA0 from [RB:RA]
+01111000-LDH[8]						Load half word(2 bytes) from address in MA0 to [RB:RA]
+01111100-STH[8]						Store half word(2 bytes) to address in MA0 from [RB:RA]
 
 10000000-11111100 [OPEX DEFINED]
 
-    0001-IMM[4]  Immediate[4]				Move 4-bit immediate value to the lower 4-bits of RA
+    0001-IMV[4]  Immediate[4]				Move 4-bit immediate value to the lower 4-bits of RA
    00101-LD[5]   SRC[3]		SRC -> GPR		Load value from address in MA0 into SRC reg 
    01001-ST[5]   SRC[3]		SRC -> GPR		Store value in SRC reg into address in MA0
    01101-PUSH[5] SRC[3]		SRC -> GPR		Push the value in SRC reg onto the stack and update SP
@@ -61,8 +62,8 @@ OPEX0: 10000000-11111100 [OPEX DEFINED]
 10001000-SLD[8]						System Load, load value from System space to RA, address in MA0
 10001100-SST[8]						System Store, store value to System space from RA, address in MA0
 10010000-SWPMA[8]					Swap MA registers, values in MA0 and MA1 is swapped.
-10010100-[8]						-
-10011000-[8]						-
+10010100-LDW[8]						Load a word(2 bytes) from address in MA0 to all 4 Head GPRs [RD:RA]
+10011000-STW[8]						Store a word(2 bytes) to address in MA0 from all 4 Head GPRs [RD:RA]
 10011100-[8]						-
 10100000-[8]						-
 10100100-[8]						-

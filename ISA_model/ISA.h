@@ -33,8 +33,8 @@
 
 // 10000000-11111100 [OPEX DEFINED]
 
-#define INSTR_IMM         0x01    //     0001-IMM[4]  Immediate[4]				Move 4-bit immediate value to the lower 4-bits of RA
-#define INSTR_IMM_MASK    0xF0
+#define INSTR_IMV         0x01    //     0001-IMM[4]  Immediate[4]				Move 4-bit immediate value to the lower 4-bits of RA
+#define INSTR_IMV_MASK    0xF0
 #define INSTR_LD          0x05    //    00101-LD[5]   SRC[3]		SRC -> GPR		Load value from address in MA0 into SRC reg 
 #define INSTR_LD_MASK     0xE0
 #define INSTR_ST          0x09    //    01001-ST[5]   SRC[3]		SRC -> GPR		Store value in SRC reg into address in MA0

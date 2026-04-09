@@ -13,8 +13,8 @@
 	- RB0-RB7 reserved as Save register. Used to save values in Tail registers. Support for the Save register is specified in FR0.
 
 ## Register Usage:
-- RA-D reg are general purpose register to temporarily store values, perform ALU operation or have predefined uses.
-- R0-3 reg are general purpose register to temporarily store values or perform ALU operation.
+- RA-D reg are called Head general purpose register, used to temporarily store values, perform ALU operation or have predefined uses.
+- R0-3 reg are called Tail general purpose register, used to temporarily store values or perform ALU operation.
 - CTRL reg is used to configure the system behaviour.
 - FAULT reg is used to store the error information.
 - FLAGS reg is used to store different flags like Carry, Zero, etc.
