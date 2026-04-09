@@ -58,5 +58,5 @@
 |0   |SR Range		|Save Register range support starting from S0   	|
 |	 |				|0= upto S3; 1= upto S7        						|
 |1:3 |OPEX Range    |OPEX Range support starting from OPEX0         	|
-|	 |				|0= OPEX0 only; 1= upto OPEX3; 2-7= Reserved, MBZ 	|
+|	 |				|0= OPEX0 only; 1= upto OPEX3; 2-7= Reserved	 	|
 |4:15|RESERVED  	|MBZ                           						|
