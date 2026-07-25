@@ -29,8 +29,8 @@ Instructions:
 01011100-OUT[8]                     Access I/O ports. I/O address in RC, Write the value from IOR SPR to port
 01100000-CLRGP[8]					Clear all the GPRs, excluding Register Banks
 01100100-CLRRB[8]                   Clear all the Register Banks, excluding GPRs
-01101000-RFRB[8]    				(R)ead (F)rom (R)egister (B)ank, [RB3:RB0] is read to [R3:R0]. Register Bank index is in RA
-01101100-WFRB[8]	    			(W)rite (t)o (R)egister (B)ank, [R3:R0] is written to [RB3:RB0]. Register Bank index is in RA
+01101000-RRB[8]     				(R)ead from (R)egister (B)ank, [RB3:RB0] is read to [R3:R0]. Register Bank index is in RA
+01101100-WRB[8]	        			(W)rite to (R)egister (B)ank, [R3:R0] is written to [RB3:RB0]. Register Bank index is in RA
 01110000-IN[8]                      Access I/O ports. I/O address in RC, Read value from port to IOR SPR
 01110100-CMP[8]						Compare, RB-RA and update flags
 01111000-HALT[8]					Stops the execution and shuts down the thread
@@ -61,7 +61,7 @@ OPEX0: 10000000-11111100 [OPEX DEFINED]
 10000100-IST[8]						Instruction Store, store value to instruction space from RA, address in MA0
 10001000-SLD[8]						System Load, load value from System space to RA, address in MA0
 10001100-SST[8]						System Store, store value to System space from RA, address in MA0
-10010000-SWPMA[8]					Swap MA registers, values in MA0 and MA1 is swapped.
+10010000-SMA[8]					    Swap MA registers, values in MA0 and MA1 is swapped.
 10010100-LDW[8]						Load a word(4 bytes) from address in MA0 to all 4 Head GPRs [RD:RA]
 10011000-STW[8]						Store a word(4 bytes) to address in MA0 from all 4 Head GPRs [RD:RA]
 10011100-SFB[8]						(S)et (F)lag (B)it, set flag specified in RA						-
