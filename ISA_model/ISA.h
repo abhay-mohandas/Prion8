@@ -1,3 +1,5 @@
+//DEPRECATED
+
 #define INSTR_NOP     0x00    // No Op
 #define INSTR_JZ      0x04    // 00000100-JZ[8]         Jump to address in MA0 if Zero Flag=1
 #define INSTR_JNZ     0x08    // 00001000-JNZ[8]	    Jump to address in MA0 if Zero Flag=0

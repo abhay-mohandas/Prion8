@@ -33,8 +33,8 @@ Instructions:
 01101100-WFRB[8]	    			(W)rite (t)o (R)egister (B)ank, [R3:R0] is written to [RB3:RB0]. Register Bank index is in RA
 01110000-IN[8]                      Access I/O ports. I/O address in RC, Read value from port to IOR SPR
 01110100-CMP[8]						Compare, RB-RA and update flags
-01111000-LDH[8]						Load half word(2 bytes) from address in MA0 to [RB:RA]
-01111100-STH[8]						Store half word(2 bytes) to address in MA0 from [RB:RA]
+01111000-HALT[8]					Stops the execution and shuts down the thread
+01111100-WAIT[8]                    Stops the execution and waits for an interrupt to continue the execution
 
 10000000-11111100 [OPEX DEFINED]
 
@@ -66,8 +66,8 @@ OPEX0: 10000000-11111100 [OPEX DEFINED]
 10011000-STW[8]						Store a word(4 bytes) to address in MA0 from all 4 Head GPRs [RD:RA]
 10011100-SFB[8]						(S)et (F)lag (B)it, set flag specified in RA						-
 10100000-CFB[8]						(C)lear (F)lag (B)it, clear flag specified in RA
-10100100-[8]						-
-10101000-[8]						-
+10100100-LDH[8]						Load half word(2 bytes) from address in MA0 to [RB:RA]
+10101000-STH[8]						Store half word(2 bytes) to address in MA0 from [RB:RA]
 10101100-[8]						-
 10110000-[8]						-
 10110100-[8]						-
