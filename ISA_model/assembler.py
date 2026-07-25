@@ -19,6 +19,10 @@ def write_bin(out_bin_file,out_bin_data):
     return
 
 def main():
+    if len(sys.argv) < 2:
+        print("Usage: python assembler.py <input.asm>")
+        sys.exit(1)
+    asmfile = sys.argv[1]
     out_bin_file = "output.bin"
     out_bin_data = bytearray()
 
