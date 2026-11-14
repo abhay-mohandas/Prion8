@@ -6,7 +6,7 @@
 - 8x8-bit General Purpose Registers: 
 	- Head: RA,RB,RC,RD.
 	- Tail: R0,R1,R2,R3.
-- 16x16-bit Special Purpose Registers: CTRL,FAULT,FLAGS,IP,IPG,DPG,SP,MA,IOR,OPEX,FCR0,etc.
+- 16x16-bit Special Purpose Registers: CTRL,FAULT,FLAGS,IP,IPG,DPG,SP,MA,IOR,OPEX,FR0,etc.
 - 256 Regiser Banks, each with 4x8-bit registers as a part of Register Bank, these have predefined purpose.
 	- RB0-RB7 reserved as Save register. Used to save values in Tail registers. Support for the Save register is specified in FR0.
 
@@ -40,7 +40,7 @@
 |3:15|RESERVED  |MBZ                                                 |
 
 
-### FLAG Register:
+### FLAGS Register:
 |Bits|Name      |Description                   |
 |----|----------|------------------------------|
 |0   |CF        |Carry flag                    |

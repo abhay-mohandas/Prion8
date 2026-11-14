@@ -1,4 +1,7 @@
 Note: All memory related operations are in Little Endian format, (Higher bits -> Lower bits)
+The lowest address holds the least significant byte, which goes in the low register. 
+The stack grows down and SP points at the last item pushed, 2-byte pushes (CALL, RCALL, PUSHM) do SP = SP - 2, then [SP] = low byte and [SP+1] = high byte.
+All instructions not listed in the flag table leave flags unchanged
 Instructions:
 
 7   :  0    - Instruction
@@ -8,22 +11,22 @@ Instructions:
 00001000-JNZ[8]						Jump to address in MA if Zero Flag=0
 00001100-JC[8]						Jump to address in MA if Carry Flag=1
 00010000-JNC[8]						Jump to address in MA if Carry Flag=0
-00010100-JT[8]            			Jump to address in MA if True Flag=1
-00011000-JMP[8]						Jump to address in MA
+00010100-JMP[8]						Jump to address in MA
+00011000-XCHG[8]                    Atomically swap RA with the byte at [MA]. Has the same effect as FENCE
 00011100-CALL[8]					Call to address in MA and save return address in stack
 00100000-RET[8]						Return to return address saved in stack
 00100100-MUL[8]						RC*RD=[RB:RA] and update flags
-00101000-DIV[8]						RC/RD=[Remainer in RB][Quotient in RA] and update flags
+00101000-DIV[8]						RC/RD=[Remainder in RB][Quotient in RA] and update flags
 00101100-BCPY[8]					Copy the bit value in RA to Carry Flag at position specified by the value in RB, position value from 0 to 7
 00110000-BS[8]						Set bit in RA at position specified by the value in RB, position value from 0 to 7
 00110100-BC[8]						Clear bit in RA at position specified by the value in RB, position value from 0 to 7
 00111000-ADC[8]						Add with Carry, RA+RB+CF=RA and update flags
 00111100-SBC[8]						Sub with Carry, RA-RB-CF=RA and update flags
 01000000-MGS[8]						(M)ove (G)PR to (S)PR, move value from [RB:RA] to SRC SPR specified in RC
-01000100-MSG[8]						(M)ove (G)PR to (S)PR, move value from SRC SPR specified in RC to [RB:RA]
+01000100-MSG[8]						(M)ove (S)PR to (G)PR, move value from SRC SPR specified in RC to [RB:RA]
 01001000-FENCE[8]					Used to serialise all previous memory operations
-01001100-LWO[8]						(L)oad (W)ith (O)ffset, Load value from address MA+RA into RB
-01010000-SWO[8]						(S)tore (W)ith (O)ffset, Store value from RB to address MA+RA
+01001100-LWO[8]						(L)oad (W)ith (O)ffset, Load value from address MA+RA (signed value from RA) into RB
+01010000-SWO[8]						(S)tore (W)ith (O)ffset, Store value from RB to address MA+RA (signed value from RA)
 01010100-INTR[8]					Signal Interrupt, Interrupt number is specified in RC
 01011000-IRET[8]                    Return from Interrupt.
 01011100-OUT[8]                     Access I/O ports. I/O address in RC, Write the value from IOR SPR to port
@@ -32,7 +35,7 @@ Instructions:
 01101000-RRB[8]     				(R)ead from (R)egister (B)ank, [RB3:RB0] is read to [R3:R0]. Register Bank index is in RA
 01101100-WRB[8]	        			(W)rite to (R)egister (B)ank, [R3:R0] is written to [RB3:RB0]. Register Bank index is in RA
 01110000-IN[8]                      Access I/O ports. I/O address in RC, Read value from port to IOR SPR
-01110100-CMP[8]						Compare, RB-RA and update flags
+01110100-CMP[8]						Compare, RA-RB and update flags
 01111000-HALT[8]					Stops the execution and shuts down the thread
 01111100-WAIT[8]                    Stops the execution and waits for an interrupt to continue the execution
 
@@ -41,8 +44,8 @@ Instructions:
     0001-IMV[4]  Immediate[4]				Left Shift RA by 4 bits and move 4-bit immediate value to the lower 4-bits of RA
    00101-LD[5]   SRC[3]		SRC -> GPR		Load value from address in MA into SRC reg 
    01001-ST[5]   SRC[3]		SRC -> GPR		Store value in SRC reg into address in MA
-   01101-PUSH[5] SRC[3]		SRC -> GPR		Push the value in SRC reg onto the stack and update SP
-   10101-POP[5]  SRC[3]		SRC -> GPR		Pop the value from stack into SRC reg and update SP
+   01101-PUSH[5] SRC[3]		SRC -> GPR		Push the value in SRC reg onto the stack and update SP to SP-1
+   10101-POP[5]  SRC[3]		SRC -> GPR		Pop the value from stack into SRC reg and update SP to SP+1
    11001-INC[5]  SRC[3]		SRC -> GPR		Increment the value in SRC by 1
    11101-DEC[5]  SRC[3]		SRC -> GPR		Decrement the value in SRC by 1
    00010-ADD[5]  SRC[3]		SRC -> GPR		Add SRC to RA and store the result in RA, update flags
@@ -59,33 +62,89 @@ Instructions:
 OPEX0: 10000000-11111100 [OPEX DEFINED]
 10000000-ILD[8]						Instruction Load, load value from instruction space to RA, address in MA. Has the effect of FENCE
 10000100-IST[8]						Instruction Store, store value to instruction space from RA, address in MA. Has the effect of FENCE
-10001000-SFB[8]						(S)et (F)lag (B)it, set flag specified in RA
-10001100-CFB[8]						(C)lear (F)lag (B)it, clear flag specified in RA
-10010000-MAADD[8]					Add [RB:RA] value to the address stored in MA
+10001000-SFB[8]						(S)et (F)lag (B)it, set flags specified in RA (FLAGS OR RA)
+10001100-CFB[8]						(C)lear (F)lag (B)it, clear flag specified in RA (FLAGS AND (NOT RA))
+10010000-MAADD[8]					Add signed [RB:RA] value to the address stored in MA
 10010100-LDW[8]						Load a word(4 bytes) from address in MA to all 4 Head GPRs [RD:RA]
 10011000-STW[8]						Store a word(4 bytes) to address in MA from all 4 Head GPRs [RD:RA]
 10011100-LDH[8]						Load half word(2 bytes) from address in MA to [RB:RA]
 10100000-STH[8]						Store half word(2 bytes) to address in MA from [RB:RA]
-10100100-RJ[8]						Relative Jump to IP + RA(signed)
-10101000-RJZ[8]						Relative Jump to IP + RA(signed) if Zero Flag=1
-10101100-RJNZ[8]					Relative Jump to IP + RA(signed) if Zero Flag=0
-10110000-RJC[8]						Relative Jump to IP + RA(signed) if Carry Flag=1
-10110100-RJNC[8]					Relative Jump to IP + RA(signed) if Carry Flag=0
+10100100-RJ[8]						Relative Jump to Next IP + RA(signed)
+10101000-RJZ[8]						Relative Jump to Next IP + RA(signed) if Zero Flag=1
+10101100-RJNZ[8]					Relative Jump to Next IP + RA(signed) if Zero Flag=0
+10110000-RJC[8]						Relative Jump to Next IP + RA(signed) if Carry Flag=1
+10110100-RJNC[8]					Relative Jump to Next IP + RA(signed) if Carry Flag=0
 10111000-GMAM[8]				    Move GPR [RB:RA] value to MA
 10111100-MAGM[8]					Move MA value to GPR [RB:RA]
 11000000-LMAI[8]				    (L)oad from (MA) and (I)ncrement, Load a byte from the address in MA to RA and increment MA by 1
 11000100-SMAI[8]					(S)tore to (MA) and (I)ncrement, Store a byte to the address in MA from RA and increment MA by 1
-11001000-LSP[8]						Load a byte from address [SP+RB] to RA
-11001100-SSP[8]						Store a byte to address [SP+RB] from RA
+11001000-LSP[8]						Load a byte from address SP+RA (signed value from RA) to RB
+11001100-SSP[8]						Store a byte to address SP+RA (signed value from RA) from RB
 11010000-ROL[8]						Rotate RA left by one through Carry Flag
 11010100-ROR[8]						Rotate RA right by one through Carry Flag
-11011000-[8]						-
-11011100-[8]						-
-11100000-[8]						-
-11100100-[8]						-
-11101000-[8]						-
-11101100-[8]						-
-11110000-[8]						-
-11110100-[8]						-
-11111000-[8]						-
-11111100-[8]						-
+11011000-RJLT[8]                    Relative jump to Next IP + RA(signed) if NF not equal to OF (signed less than)
+11011100-RJGE[8]                	Relative jump to Next IP + RA(signed) if NF equal to OF (signed greater or equal)
+11100000-RCALL[8]               	Push the next IP, then jump to next IP + RA(signed). Same stack rules as CALL.
+11100100-ASR[8]                     Arithmetic shift right RA by the count in RB, keeping the sign bit
+11101000-SXT[8]     	            Sign-extend RA into [RB:RA]. RB = 0xFF if RA bit 7 is set, else 0x00.
+11101100-PUSHM[8]	                Push MA onto the stack (2 bytes)
+11110000-POPM[8]                    Pop 2 bytes from the stack into MA
+11110100-JCC[8]                     Jump to the address in MA if the condition code in RA is true
+11111000-RJCC[8]                    Relative jump to next IP + RA (signed) if the condition code in RB is true
+11111100-[8]						Reserved
+
+
+
+
+Jump Condition Codes (low 4 bits of the register, upper bits ignored). They assume CMP computes RA − RB.
+
+Code	Name	True when
+0	    ALWAYS	always
+1       EQ      ZF=1
+2       NE      ZF=0
+3       LTU 	CF=1 (unsigned)
+4   	GEU	    CF=0 (unsigned)
+5   	NEG 	NF=1
+6   	POS 	NF=0
+7   	VS   	OF=1
+8	    VC  	OF=0
+9       LT	    NF!=OF (signed)
+10  	GE  	NF=OF (signed)
+11      GT   	ZF=0 and NF=OF (signed)
+12  	LE  	ZF=1 or NF≠OF (signed)
+13  	GTU     CF=0 and ZF=0 (unsigned)
+14      LEU	    CF=1 or ZF=1 (unsigned)
+15	    Reserved
+
+
+Flag effects
+
+Instruction         CF                      ZF                      NF                      OF
+ADD	                carry out	            result = 0	            result bit 7	        signed overflow
+SUB, CMP	        borrow 	                result = 0	            result bit 7            signed overflow
+            (1 if RA<RB unsigned)
+ADC	                carry out   	        result = 0 AND old ZF	result bit 7	        signed overflow
+SBC	                borrow 	                result = 0 and old ZF	result bit 7	        signed overflow
+            (1 if RA < RB + CF)
+INC, DEC	        unchanged	            result = 0	            result bit 7	        signed overflow
+AND, OR, XOR, NOT	0	                    result = 0	            result bit 7	        0
+SHL, SHR, ASR	    last bit shifted out	result = 0	            result bit 7	        0
+ROL, ROR	        bit rotated out	        result = 0	            result bit 7	        unchanged
+MUL (unsigned)	    RB ≠ 0	                product = 0	            product bit 15	        RB ≠ 0
+DIV (unsigned)	    0	                    quotient = 0	        quotient bit 7	        0
+BCPY	            selected bit of RA	    unchanged	            unchanged	            unchanged
+SFB, CFB	        per mask	            per mask	            per mask	            per mask
+
+Rules:
+ -Sticky ZF: only ADC and SBC use the old ZF. Always start a multi-byte chain with ADD or SUB (ADC/SBC alone continue a chain), and the final ZF is a correct zero test for the whole value.
+ -Shifts: count 0 changes nothing, including flags. For SHL and SHR, a count of 8 or more gives 0 (CF is the last bit out for exactly 8, and 0 beyond that). ASR with a count of 8 or more gives 0x00 or 0xFF by the sign bit, and CF = the sign bit. SHR is logical, and ASR is the arithmetic one.
+ -INC/DEC: CF is left alone, so a counter can step through a multi-byte add without losing the carry. They don’t take part in sticky ZF.
+ -BCPY and BS/BC: the bit number comes from the low 3 bits of RB.
+ -DIV by zero: raises a fault, and registers and flags stay unchanged.
+ -SFB/CFB: the mask covers the five defined bits (CF=0x01, ZF=0x02, NF=0x04, OF=0x08, IF=0x10), and other bits are ignored. In user mode, bit 0x10 is also ignored, so user code can’t change IF.
+ -MGS to FLAGS: the same masking applies.
+ -Interrupts and faults: both save IP and FLAGS, and IRET restores both.
+ -Reset: all flags are 0.
+
+
+
