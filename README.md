@@ -1,14 +1,12 @@
 # Prion8
-- 8 bit architecture and instruction length.
-- 16 bit address length.
+- 8-bit architecture and instruction length.
+- 16-bit address length.
 - 1/2/4/8 bytes -> byte, half-word, word, double-word
-- Separate Instruction, Data and System space. Each 2^16 bytes.
-	- Virtual address is used for Instruction and Data space.
-	- System Space will be split for various uses.
+- Separate Instruction and Data space. Each 2^16 bytes. Virtual address is used for Instruction and Data space.
 - 8x8-bit General Purpose Registers: 
-	- Head:RA,RB,RC,RD.
-	- Tail:R0,R1,R2,R3.
-- 16x16-bit Special Purpose Registers: CTRL,FAULT,FLAGS,IP,PG,SP,MA0,MA1,IOR,OPEX,FCR0,etc.
+	- Head: RA,RB,RC,RD.
+	- Tail: R0,R1,R2,R3.
+- 16x16-bit Special Purpose Registers: CTRL,FAULT,FLAGS,IP,IPG,DPG,SP,MA,IOR,OPEX,FCR0,etc.
 - 256 Regiser Banks, each with 4x8-bit registers as a part of Register Bank, these have predefined purpose.
 	- RB0-RB7 reserved as Save register. Used to save values in Tail registers. Support for the Save register is specified in FR0.
 
@@ -19,9 +17,10 @@
 - FAULT reg is used to store the error information.
 - FLAGS reg is used to store different flags like Carry, Zero, etc.
 - IP reg is the Program Counter, used to point to the instruction address.
-- PG reg is used to store the base paging address, Page size starting from 256 bytes.
+- IPG reg is used to store the base instruction paging address, Page size starting from 256 bytes.
+- DPG reg is used to store the base data paging address, Page size starting from 256 bytes.
 - SP reg is the Stack Pointer register, used for push, pop, etc.
-- MA0, MA1 reg is used for address related instructions like jump/load/store.
+- MA reg is used for address related instructions like jump/load/store.
 - IOR reg is used for I/O operations, holds the values to/from I/O devices.
 - OPEX reg is used for opcode extension and holds the Opcode Set number.
 	- Defines the behaviour of opcodes from 0x80[7:3]-0xFC[7:3] (32 instructions in total) based on the Opcode Set number.
@@ -47,7 +46,7 @@
 |0   |CF        |Carry flag                    |
 |1   |ZF        |Zero flag                     |
 |2   |NF        |Negative flag                 |
-|3   |TF        |True flag                     |
+|3   |OF        |Overflow flag                 |
 |4   |IF        |Interrupt flag                |
 |5:15|RESERVED  |MBZ                           |
 
