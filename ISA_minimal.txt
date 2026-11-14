@@ -28,7 +28,7 @@ Instructions:
 01001100-LWO[8]						(L)oad (W)ith (O)ffset, Load value from address MA+RA (signed value from RA) into RB
 01010000-SWO[8]						(S)tore (W)ith (O)ffset, Store value from RB to address MA+RA (signed value from RA)
 01010100-INTR[8]					Signal Interrupt, Interrupt number is specified in RC
-01011000-IRET[8]                    Return from Interrupt.
+01011000-ERET[8]                    Return from an exception or interrupt (fault, INTR or hardware interrupt)
 01011100-OUT[8]                     Access I/O ports. I/O address in RC, Write the value from IOR SPR to port
 01100000-CLRGP[8]					Clear all the GPRs, excluding Register Banks
 01100100-CLRRB[8]                   Clear all the Register Banks, excluding GPRs
@@ -141,9 +141,9 @@ Rules:
  -INC/DEC: CF is left alone, so a counter can step through a multi-byte add without losing the carry. They don’t take part in sticky ZF.
  -BCPY and BS/BC: the bit number comes from the low 3 bits of RB.
  -DIV by zero: raises a fault, and registers and flags stay unchanged.
- -SFB/CFB: the mask covers the five defined bits (CF=0x01, ZF=0x02, NF=0x04, OF=0x08, IF=0x10), and other bits are ignored. In user mode, bit 0x10 is also ignored, so user code can’t change IF.
- -MGS to FLAGS: the same masking applies.
- -Interrupts and faults: both save IP and FLAGS, and IRET restores both.
+ -SFB/CFB: the mask covers the five defined bits (CF=0x01, ZF=0x02, NF=0x04, OF=0x08, IF=0x10), and other bits are ignored. In user mode, IF mask raises a privilege fault, so user code can’t change IF.
+ -MGS to FLAGS: the same masking applies(raises a privilege fault in user mode).
+ -Interrupts and faults: both saves IP, FLAGS and CTRL, and ERET restores both.
  -Reset: all flags are 0.
 
 
