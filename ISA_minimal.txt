@@ -38,9 +38,6 @@ Instructions:
 01110100-CMP[8]						Compare, RA-RB and update flags
 01111000-HALT[8]					Stops the execution and shuts down the thread
 01111100-WAIT[8]                    Stops the execution and waits for an interrupt to continue the execution
-
-10000000-11111100 [OPEX DEFINED]
-
     0001-IMV[4]  Immediate[4]				Left Shift RA by 4 bits and move 4-bit immediate value to the lower 4-bits of RA
    00101-LD[5]   SRC[3]		SRC -> GPR		Load value from address in MA into SRC reg 
    01001-ST[5]   SRC[3]		SRC -> GPR		Store value in SRC reg into address in MA
@@ -57,9 +54,6 @@ Instructions:
    11010-SHL[5]  SRC[3]		SRC -> GPR		Shift Left value in RA by the value in SRC, update flags
    11110-SHR[5]  SRC[3]		SRC -> GPR		Shift Right value in RA by the value in SRC, update flags
       11-RMV[2]  DST/SRC[3] DST/SRC -> GPR	Move value from SRC reg to DST reg
-
-
-OPEX0: 10000000-11111100 [OPEX DEFINED]
 10000000-ILD[8]						Instruction Load, load value from instruction space to RA, address in MA. Has the effect of FENCE
 10000100-IST[8]						Instruction Store, store value to instruction space from RA, address in MA. Has the effect of FENCE
 10001000-SFB[8]						(S)et (F)lag (B)it, set flags specified in RA (FLAGS OR RA)
@@ -92,8 +86,6 @@ OPEX0: 10000000-11111100 [OPEX DEFINED]
 11110100-JCC[8]                     Jump to the address in MA if the condition code in RA is true
 11111000-RJCC[8]                    Relative jump to next IP + RA (signed) if the condition code in RB is true
 11111100-[8]						Reserved
-
-
 
 
 Jump Condition Codes (low 4 bits of the register, upper bits ignored). They assume CMP computes RA − RB.

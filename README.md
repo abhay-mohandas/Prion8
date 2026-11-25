@@ -22,11 +22,6 @@
 - SP reg is the Stack Pointer register, used for push, pop, etc.
 - MA reg is used for address related instructions like jump/load/store.
 - IOR reg is used for I/O operations, holds the values to/from I/O devices.
-- OPEX reg is used for opcode extension and holds the Opcode Set number.
-	- Defines the behaviour of opcodes from 0x80[7:3]-0xFC[7:3] (32 instructions in total) based on the Opcode Set number.
-	- This increases the theoretical limit of instructions from 32 to over 2M (32*(2**16)).
-	- Support for OPEX is specified in FR0. OPEXn can have reserved opcodes.
-	- Disabled if CTRL.OE is 0 and the OPEX instruction range will be same as OPEX=0(default instructions).
 - FR0 (Feature Register 0) reg is a read-only register, holds the values to indicate various feature support.
 - IVT reg holds the base address of the interrupt vector table.
 - FADDR reg holds the faulting address, so the fault handler knows what went wrong.
@@ -43,13 +38,13 @@
 |4   |SP       |Any mode        |Any mode                                 |
 |5   |MA       |Any mode        |Any mode                                 |
 |6   |IOR      |Any mode        |Any mode                                 |
-|7   |OPEX     |Any mode        |Any mode                                 |
-|8   |FR0      |Any mode	    |Fault (read-only)                        |
-|9   |IPG      |Supervisor only |Supervisor only                          |
-|10  |DPG      |Supervisor only |Supervisor only                          |
-|11  |IVT      |Supervisor only |Supervisor only                          |
-|12  |FADDR    |Supervisor only |Supervisor only                          |
-|13  |COREID   |Any mode        |Fault (read-only)                        |
+|7   |FR0      |Any mode	    |Fault (read-only)                        |
+|8   |IPG      |Supervisor only |Supervisor only                          |
+|9   |DPG      |Supervisor only |Supervisor only                          |
+|10  |IVT      |Supervisor only |Supervisor only                          |
+|11  |FADDR    |Supervisor only |Supervisor only                          |
+|12  |COREID   |Any mode        |Fault (read-only)                        |
+|13  |RESERVED |zero            |Fault                                    |
 |14  |RESERVED |zero            |Fault                                    |
 |15  |RESERVED |zero            |Fault                                    |
 
@@ -86,9 +81,7 @@
 |----|--------------|---------------------------------------------------|
 |0   |SR Range		|Save Register range support starting from S0   	|
 |	 |				|0= upto S3; 1= upto S7        						|
-|1:3 |OPEX Range    |OPEX Range support starting from OPEX0         	|
-|	 |				|0= OPEX0 only; 1= upto OPEX3; 2-7= Reserved	 	|
-|4:15|RESERVED  	|MBZ                           						|
+|1:15|RESERVED  	|MBZ                           						|
 
 
 ## Faults and the Fault registers
@@ -106,7 +99,7 @@
 |Vector|Fault                                                                          |
 |------|-------------------------------------------------------------------------------|
 |0     |Divide by zero                                                                 |
-|1     |Illegal instruction (reserved opcode, unsupported OPEX set, INTR with RC < 16) |
+|1     |Illegal instruction (reserved opcode, INTR with RC < 16, etc)                  |
 |2     |Privilege violation (supervisor-only SPR,ERET in user mode,user change of IF)  |
 |3     |Invalid SPR access (write to read-only SPR, reserved SPR number)               |
 |4     |Page fault                                                                     |
